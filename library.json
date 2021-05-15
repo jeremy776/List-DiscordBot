@@ -1,0 +1,157 @@
+[
+  {
+    "name": "discljord",
+    "url": "https://github.com/igjoshua/discljord",
+    "language": "Clojure"
+  },
+  {
+    "name": "aegis.cpp",
+    "url": "https://github.com/zeroxs/aegis.cpp",
+    "language": "C++"
+  },
+  {
+    "name": "discordcr",
+    "url": "https://github.com/shardlab/discordcr",
+    "language": "Crystal"
+  },
+  {
+    "name": "Discord.Net",
+    "url": "https://github.com/RogueException/Discord.Net",
+    "language": "C#"
+  },
+  {
+    "name": "DSharpPlus",
+    "url": "https://github.com/DSharpPlus/DSharpPlus",
+    "language": "C#"
+  },
+  {
+    "name": "dscord",
+    "url": "https://github.com/b1naryth1ef/dscord",
+    "language": "D"
+  },
+  {
+    "name": "coxir",
+    "url": "https://github.com/satom99/coxir",
+    "language": "Elixir"
+  },
+  {
+    "name": "Nostrum",
+    "url": "https://github.com/Kraigie/nostrum",
+    "language": "Elixir"
+  },
+  {
+    "name": "DiscordGo",
+    "url": "https://github.com/bwmarrin/discordgo",
+    "language": "Go"
+  },
+  {
+    "name": "DisGord",
+    "url": "https://github.com/andersfylling/disgord",
+    "language": "Go"
+  },
+  {
+    "name": "catnip",
+    "url": "https://github.com/mewna/catnip",
+    "language": "Java"
+  },
+  {
+    "name": "Discord4J",
+    "url": "https://discord4j.com/",
+    "language": "Java"
+  },
+  {
+    "name": "Javacord",
+    "url": "https://github.com/Javacord/Javacord",
+    "language": "Java"
+  },
+  {
+    "name": "JDA",
+    "url": "https://github.com/DV8FromTheWorld/JDA",
+    "language": "Java"
+  },
+  {
+    "name": "discord.js",
+    "url": "https://github.com/discordjs/discord.js",
+    "language": "Javascript"
+  },
+  {
+    "name": "Eris",
+    "url": "https://github.com/abalabahaha/eris",
+    "language": "Javascript"
+  },
+  {
+    "name": "Discord.jl",
+    "url": "https://github.com/Xh4H/Discord.jl",
+    "language": "Julia"
+  },
+  {
+    "name": "Discordia",
+    "url": "https://github.com/SinisterRectus/Discordia",
+    "language": "Lua"
+  },
+  {
+    "name": "Dimscord",
+    "url": "https://github.com/krisppurg/dimscord",
+    "language": "Nim"
+  },
+  {
+    "name": "discordnim",
+    "url": "https://github.com/Krognol/discordnim",
+    "language": "Nim"
+  },
+  {
+    "name": "DiscordPHP",
+    "url": "https://github.com/discord-php/DiscordPHP",
+    "language": "PHP"
+  },
+  {
+    "name": "RestCord",
+    "url": "https://www.restcord.com/",
+    "language": "PHP"
+  },
+  {
+    "name": "discord.py",
+    "url": "https://github.com/Rapptz/discord.py",
+    "language": "Python"
+  },
+  {
+    "name": "disco",
+    "url": "https://github.com/b1naryth1ef/disco",
+    "language": "Python"
+  },
+  {
+    "name": "discordrb",
+    "url": "https://github.com/shardlab/discordrb",
+    "language": "Ruby"
+  },
+  {
+    "name": "discord-rs",
+    "url": "https://github.com/SpaceManiac/discord-rs",
+    "language": "Rust"
+  },
+  {
+    "name": "Serenity",
+    "url": "https://github.com/serenity-rs/serenity",
+    "language": "Rust"
+  },
+  {
+    "name": "Twilight",
+    "url": "https://github.com/twilight-rs/twilight",
+    "language": "Rust"
+  },
+  {
+    "name": "AckCord",
+    "url": "https://github.com/Katrix/AckCord",
+    "language": "Scala"
+  },
+  {
+    "name": "Sword",
+    "url": "https://github.com/Azoy/Sword",
+    "language": "Swift"
+  },
+  {
+    "name": "discordeno",
+    "url": "https://github.com/discordeno/discordeno",
+    "language": "Typescript"
+  }
+]

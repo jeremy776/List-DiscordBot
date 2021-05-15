@@ -1,0 +1,45 @@
+.userAvatar {
+  width:130px;
+  height:130px;
+}
+i {
+  position:relative;
+  display:inline-block;
+  padding:5px;
+  border-radius:7px !important;
+}
+
+i span {
+  text-align:center;
+  padding:5px;
+  bottom:100%;
+  position:absolute;
+  visibility:hidden;
+  left:50%;
+  margin-left:-30px;
+  width:60px;
+  font-size:10px;
+  transform:translateY(75%);
+  transition:visibility 0.15s ease,
+    transform 1s ease;
+  background-color:rgba(0,0,0,0.5);
+}
+i:hover span {
+  visibility:visible !important;
+  transition:transform 0.2s ease;
+  transform:translateY(-15%);
+}
+
+@keyframes avatar {
+  0%, 100% {
+    transfrom:translateY(0%);
+  }
+  50% {
+    transform:translateY(-10%);
+  }
+}
+
+.userAvatar {
+  filter:drop-shadow(2px 10px 10px black);
+  animation:avatar 3.5s linear infinite;
+}

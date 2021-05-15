@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta name="og:title" content="<%- client.users.cache.get(data.id).username %>"/>
+<!--meta name="og:url" content="https://list-discordbot.cf/" /-->
+    <link rel='icon' href='<%- client.users.cache.get(data.id).displayAvatarURL({format:"png", size:2048}) %>' />
+    <meta name="theme-color" content="#4285f4">
+    <meta name="og:image" content="<%- client.users.cache.get(data.id).displayAvatarURL({format:"png", size:2048}) %>" />
+    <meta name="og:description" content="<%- data.sdecs %>"/>
+
+    <script data-ad-client="ca-pub-5902686510993379" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <script src="https://kit.fontawesome.com/27c7900ece.js" crossorigin="anonymous"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- GOOGLE FONTS -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Work+Sans&display=swap" rel="stylesheet">
+    
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2&display=swap" rel="stylesheet">
+    <!-- CUSTOM CSS -->
+    <link rel="stylesheet" href="/bot/style.css">
+    <link rel="stylesheet" href="/navbar.css">
+    <!-- FONT URL 1 -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@1,300&display=swap" rel="stylesheet">
+    <!-- Bootstrap CSS & ICON -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.0/font/bootstrap-icons.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+    <title>List DiscordBot | <%- client.users.cache.get(data.id).username %></title>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark" style="">
+      <div class="container">
+        <a class="navbar-brand" href="/">
+          <img src="https://cdn.discordapp.com/attachments/700935494711771147/841545130636476436/image_18.png" width="40" height="34">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link" aria-current="page" href="/">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/faq">Faq</a>
+            </li>
+            <% if(req.user) { %>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="dropdown-account" data-bs-toggle="dropdown" aria-expanded="false"><%- req.user.username %>#<%- req.user.discriminator %></a>
+              <ul class="dropdown-menu" aria-labelledby="dropdown-account">
+                <li><a class="dropdown-item" href="/add">Add Bot</a></li>
+                <li><a class="dropdown-item" href="/user/<%- req.user.id %>">Profile</a></li>
+                <li><a class="dropdown-item" href="/logout">Logout</a></li>
+              </ul>
+            </li>
+            <% }else{ %>
+            <li class="nav-item">
+              <a class="nav-link" href="/login">Login</a>
+            </li>
+            <% } %>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    
+    
+    <div class="container">
+      <div class="row mt-4">
+        <div class="col-md-8">
+          <div class="row">
+            <div class="col-md-4 text-center">
+              <img class="avatar" alt="avatar" width="130" height="130" src="<%- client.users.cache.get(data.id).displayAvatarURL({format:"png", size:2048})%>">
+            </div>
+            <div class="col-md-8">
+              <h2 class="my-6 name"><%- client.users.cache.get(data.id).username %></h2>
+              <p class="des"><%- data.sdecs %></p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <% if(data.comment.length) { %>
+          <h2 class="text-center"><i class="bi bi-star-fill" style="color:yellow;"></i> <% let a = ( 5 * data.comment.filter(x => x.rate == 5).length + 4 * data.comment.filter(x => x.rate == 4).length + 3 * data.comment.filter(x => x.rate == 3).length + 2 * data.comment.filter(x => x.rate == 2).length + 1 * data.comment.filter(x => x.rate == 1).length ) / ( data.comment.filter(x => x.rate == 5).length + data.comment.filter(x => x.rate == 4).length + data.comment.filter(x => x.rate == 3).length + data.comment.filter(x => x.rate == 2).length + data.comment.filter(x => x.rate == 1).length ) %> <%- a.toFixed(1) %> / 5</h2>
+          <% } %>
+        </div>
+        <div class="">
+          <a class="button-invite-vote" href="<%- data.invite %>"><b><i class="fas fa-plus"></i> Invite</b></a>
+          <a class="button-invite-vote" href="/vote/<%- req.params.id %>"><b><i class="fas fa-chevron-up"></i> Vote</b> <kbd style="background:#285447" class="float-end"><%- data.vote.toLocaleString() %></kbd></a>
+        </div>
+      </div>
+      
+      <div class="box-view mt-4" style="word-wrap:break-word;"><%- descriptionn %></div>
+      
+      <div class="tag" style="margin-left:9px;">
+        <h1>Tags</h1>
+        <% if(data.category.map !== undefined) { %>
+        <p><%- data.category.map(x => `
+        <span class="badge badge-primary categoryButton">${x}</span>
+         `).join("") %>
+        </p>
+        <% } %>
+      </div>
+      
+      <div class="row" style="margin:7px;"><% if(req.user) { %><% if(req.user.id == data.ownerId) { %>
+        <div class="col-md-6">
+          <h6>Developer</h6>
+          <a class="button-invite-vote" href="/edit/<%- req.params.id %>"><i class="fas fa-wrench"></i> Edit</a>
+        </div><% } %><% } if(!req.user || req.user.id == data.ownerId || req.user.id !== data.ownerId) { %>
+        <div class="col-md-6">
+          <h6>General</h6>
+          <p class="button-invite-vote"><b><i class="fas fa-thumbtack"></i> Prefix <kbd class="float-end" id="enity" style="background-color:#285447;"><%- data.prefix %></kbd></b></p>
+          <a class="button-invite-vote" href="/user/<%- data.ownerId %>"><b><i class="fas fa-user"></i> Creator <kbd class="float-end" style="background-color:#285447;"><%- client.users.cache.get(data.ownerId).tag %></kbd></b></a><% if(data.supportServer) { %>
+          <a href="https://discord.gg/<%- data.supportServer %>" class="button-invite-vote"><b><i class="fab fa-discord"></i> Support Server</b></a><% } %>
+          <% if(data.website) { %>
+          <a href="<%- data.website %>" class="button-invite-vote"><b><i class="fas fa-globe"></i> Website</b></a>
+          <% } %>
+        </div><% } %>
+      </div><% if(req.user) { %><% if(req.user.id === data.ownerId && data.comment.filter(x => x.id == req.user.id)) {%><% }else{ %>
+      
+      <hr>
+      <div class="row" style="margin:7px;">
+        <div class="col-md-2">
+          
+        </div>
+        <div class="col-md-10">
+          <h2>Rating Bot</h2>
+          <form method="post" action="/bot/<%- req.params.id %>">
+            <input type="hidden" value="<%- csrfToken %>" name="_csrf">
+          <textarea style="width:95%;color:white;" id="message" name="message" class="box-view" rows="3" required></textarea>
+          <div class="star-widget">
+            <input type="radio" name="rate" id="rate-5" value="5">
+            <label for="rate-5" class="bi bi-star-fill"></label>
+            <input type="radio" name="rate" id="rate-4" value="4">
+            <label for="rate-4" class="bi bi-star-fill"></label>
+            <input type="radio" name="rate" id="rate-3" value="3">
+            <label for="rate-3" class="bi bi-star-fill"></label>
+            <input type="radio" name="rate" id="rate-2" value="2">
+            <label for="rate-2" class="bi bi-star-fill"></label>
+            <input type="radio" name="rate" id="rate-1" value="1">
+            <label for="rate-1" class="bi bi-star-fill"></label>
+          
+            <button type="submit" class="button-invite-vote">Send</button>
+            </form>
+          </div>
+        </div>
+      </div><% } } %><% if(!data.comment.length) { %><h1 class="text-center">No comments yet</h1><% }else{ %>
+      <h1 class="text-center">Comments</h1><% data.comment.map(x => { %><hr>
+      <div class="row" style="margin:7px;">
+        <div class="col-2">
+          <img src="<%- userComment.data[x.id].Avatar %>" class="image-comment" alt="Avatar">
+        </div>
+        <div class="col-10">
+          <h4 class="name text-start"><%- userComment.data[x.id].Username %> <span id="time"></span></h4>
+          <p><%- x.message %></p>
+          <div class="star-widget-view" id="c<%-x.rate%>">
+            <input type="radio" id="radio5" disabled>
+            <label for="radio5" class="bi bi-star-fill"></label>
+            <input type="radio" id="radio4" disabled>
+            <label for="radio4" class="bi bi-star-fill"></label>
+            <input type="radio" id="radio3" disabled>
+            <label for="radio3" class="bi bi-star-fill"></label>
+            <input type="radio" id="radio2" disabled>
+            <label for="radio2" class="bi bi-star-fill"></label>
+            <input type="radio" id="radio1" disabled>
+            <label for="radio1" class="bi bi-star-fill"></label>
+          </div>
+        </div>
+      </div><% }) } %>
+    </div>
+  </body>
+</html>
+<!-- Bootstrap Bundle with Popper -->
+    <script src="https://momentjs.com/downloads/moment.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script><div class="row row-cols-1 row-cols-md-3 g-4">
+  <script src="/bot/script.js"></script>
+  <style>
+    .star-widget p {
+      display:none;
+    }
+    .star-widget-view label {
+      font-size:15px;
+      color:#444;
+      padding:5px;
+      float:right;
+      transition: all 0.2s ease;
+    }
+    .star-widget-view input {
+      display:none;
+    }
+    .star-widget-view input:checked ~ label {
+      color:#fd4;
+    }
+    .star-widget-view .active ~ label {
+      color:#fd4;
+    }
+    #c5 #radio5 ~ label {
+      color:#fd4;
+    }
+    #c4 #radio4 ~ label {
+      color:#fd4;
+    }
+    #c3 #radio3 ~ label {
+      color:#fd4;
+    }
+    #c2 #radio2 ~ label {
+      color:#fd4;
+    }
+    #c1 #radio1 ~ label {
+      color:#fd4;
+    }
+    .image-comment {
+      width:50px !important;
+      height:50px !important;
+      border-radius:50% !important;
+    }
+    
+    .star-widget label{
+      font-size: 15px;
+      color: #444;
+      padding:5px;
+      float: right;
+      transition: all 0.2s ease;
+    }
+    input {
+      display:none;
+    }
+   /* input:not(:checked) ~ label:hover,
+    input:not(:checked) ~ label:hover ~ label{
+      color: #fd4;
+    }*/
+    input:checked ~ label{
+      color: #fd4;
+    }
+    #rate-1:checked ~ .rating:before {
+      content: "1";
+    }
+    #rate-2:checked ~ .rating:before {
+      content: "2";
+    }
+    #rate-3:checked ~ .rating:before {
+      content: "3";
+    }
+    #rate-4:checked ~ .rating:before {
+      content: "4";
+    }
+    #rate-5:checked ~ .rating:before {
+      content: "5";
+    }
+    .box-view img {
+      max-width:80%;
+      max-height:80%;
+    }
+  </style>

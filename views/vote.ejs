@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!--<script src="https://arc.io/arc-sw.js"></script>
+    <script async src="https://arc.io/widget.min.js#LeaEkRp8"></script>
+    <script data-ad-client="ca-pub-5902686510993379" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- CUSTOM CSS -->
+    <script src="https://kit.fontawesome.com/27c7900ece.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/home/style.css">
+    <link rel="stylesheet" href="/navbar.css">
+    <!-- Bootstrap CSS & ICON -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.0/font/bootstrap-icons.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+    <title>Vote <%- client.users.cache.get(req.params.id).username %></title>
+  </head>
+  <body>
+    
+    
+    <center><div class="box-one">
+      <img width="200" height="200" src="<%- client.users.cache.get(req.params.id).displayAvatarURL({format:"png", size:2048}) %>" class="mt-5 mb-2 img-fluid">
+      <h1 class="mb-5"><%- client.users.cache.get(req.params.id).username %></h1>
+      
+      <% if(!locals.message.length) { %>
+      <p>You can only vote 1 in 24 hours</p>
+      <form action="/vote/<%- req.params.id %>" method="POST">
+        <input type="hidden" name="_csrf" value="<%- csrfToken %>">
+        <button class="btn mt-2 vote" style="color:white;width:70%;">VOTE</button>
+      </form>
+      <% }else{ %>
+      <p><%- locals.message %></p>
+      <a href="/bot/<%- req.params.id %>" class="btn mt-2 vote" style="color:white;width:70%;">Back</a>
+      <% } %>
+      
+    </div></center>
+    
+  </body>
+</html>
+<!-- Bootstrap Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script><div class="row row-cols-1 row-cols-md-3 g-4">
+  <style>body{color:white !important;}img{border-radius:10px;}.vote{background-color:#7289DA;}.btn:hover{box-shadow:0px -4px 30px rgba(0,0,0,0.2)!important;}</style>

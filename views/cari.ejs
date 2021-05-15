@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <script src="https://kit.fontawesome.com/27c7900ece.js" crossorigin="anonymous"></script>
+    <script async src="https://arc.io/widget.min.js#LeaEkRp8"></script>
+    <script data-ad-client="ca-pub-5902686510993379" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- CUSTOM CSS -->
+    <link rel="stylesheet" href="/home/style.css">
+    <link rel="stylesheet" href="/navbar.css">
+    <!-- Bootstrap CSS & ICON -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.0/font/bootstrap-icons.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+    <title>List DiscordBot</title>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark">
+      <div class="container">
+        <a class="navbar-brand" href="#">
+          <img src="https://cdn.discordapp.com/attachments/700935494711771147/841545130636476436/image_18.png" width="40" height="34">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="/">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/discord">Join Discord</a>
+            </li>
+            <% if(req.user) { %>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="dropdown-account" data-bs-toggle="dropdown" aria-expanded="false"><%- req.user.username %>#<%- req.user.discriminator %></a>
+              <ul class="dropdown-menu" aria-labelledby="dropdown-account">
+                <li><a class="dropdown-item" href="/add">Add Bot</a></li>
+                <li><a class="dropdown-item" href="/user/<%- req.user.id %>">Profile</a></li>
+                <li><a class="dropdown-item" href="/logout">Logout</a></li>
+              </ul>
+            </li>
+            <% }else{ %>
+            <li class="nav-item">
+              <a class="nav-link" href="/login">Login</a>
+            </li>
+            <% } %>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div class="text-center heading">
+      <div class="row">
+        <div class="col-md-6">
+          <img class="img-fluid" src="https://cdn.discordapp.com/attachments/700935494711771147/841562725892358184/Tanpa_judul_5.png">
+        </div>
+        <div class="col-md-6">
+          <div class="">
+            <h4>Find Bots for your Server now!</h4>
+            <p class="heading-text">Improve your Discord experience with some Discord bots</p>
+            <div class="input-group">
+              
+                <input id="search-name" placeholder="Search Bot" type="text" value="<%- req.params.name %>" aria-describe="search-button" required>
+                <button class="searchButton" type="button" id="search-button"><i class="bi bi-search"></i></button>
+              <script>document.getElementById("search-button").addEventListener("click", function() {if(document.getElementById("search-name").value.length < 1) {return;}else{window.location.href = "/search/"+ document.getElementById("search-name").value.toLowerCase();}});</script>
+              </div>
+            <div class="box-category text-start" id="category">
+              <a class="category btn"><i class="bi bi-card-list"></i> Top</a>
+              <a class="category btn" href="/tag/moderation"><i class="bi bi-hammer"></i> Moderation</a>
+              <a class="category btn" href="/tag/music"><i class="bi bi-music-note-beamed"></i> Music</a>
+              <a class="category btn"><i class="bi bi-clipboard-data"></i> New Bots</a>
+              <a class="category btn" href="#explore-tags"><i class="bi bi-tags"></i> Explore Tags</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!--cript async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <!-- DiscordIklan 2 --
+    <ins class="adsbygoogle" 
+         style="display:block"
+         data-ad-client="ca-pub-5902686510993379"
+         data-ad-slot="8085422666"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>
+      (adsbygoogle = window.adsbygoogle || []).push({});
+    </script--
+      
+    <div class="container mb-5">
+      <h1 class="text-center mt-5 mb-4"><i class="bi bi-info-circle"></i> Announcement!</h1>
+      <!-- row row-cols-1 row-cols-md-3 g-4 ->
+      <div class="row row-cols-1 row-cols-md-2 g-4">
+        <div class="col" --
+          <div class="card">
+            <div class="row">
+              <div class="card-img col">
+                <img src="https://cdn.discordapp.com/attachments/819925637678366720/819966413141835786/20210312_231312.png" class="card-img-top img-fluid" alt="Top Bot">
+              </div>
+              <div class="col mt-5">
+                  <span class="badge rounded-pill bg-danger">Announcement Bot</span>
+              </div>
+            </div>
+            <div class="card-body">
+              <h5 class="card-title">List DiscordBot</h5>
+              <p class="card-text">List DiscordBot is back with a new design and there will definitely be more new updates. What are you waiting for? let's join now</p>
+              <hr>
+              <div class="text-center">
+                <a class="btn btn-primary" href="https://discord.gg/k7wPzvN4RN"><i class="bi bi-discord"></i> Join Discord Now!</a>
+              </div>
+            </div>
+          </div>
+        <!--/div>
+      </div--
+    </div-->
+    
+    <div class="container-fluid mb-5">
+      <% if(allData.map(x => x.data).filter(x => x.status == true && client.users.cache.get(x.id).username.toLowerCase().includes(req.params.name.toLowerCase())).map(x => x).length) { %>
+      <% allData.map(x => x.data).filter(x => x.status == true && client.users.cache.get(x.id).username.toLowerCase().includes(req.params.name.toLowerCase())).map(x => { %>
+      <h1 class="text-center mt-5 mb-3">Random Bot</h1>
+    <div class="row row-cols-1 row-cols-md-4 g-4">
+      <!--allData.map(x => x.data).filter(x => x.status == true && client.users.cache.get(x.id).username.toLowerCase().includes(req.params.name.toLowerCase())).map(x => { -->
+      <div class="col">
+        <div class="card <% if(x.bgURL) { %>
+                    custom
+                    <% } %>" style="background:url(<%- x.bgURL %>);">
+          <img src="<%- client.users.cache.get(x.id).displayAvatarURL({format:"png", size:2048}) %>" class="card-img-custom rounded" alt="...">
+          <div class="card-body">
+            <div class="btn-card mb-3">
+              <a class="btn-vote" href="/vote/<%- x.id %>"><i class="fas fa-chevron-up"></i> <%- x.vote.toLocaleString() || "N/A"%></a>
+            </div>
+            <h5 class="card-title"><%- client.users.cache.get(x.id).username %></h5>
+            <p class="card-text shortDesc"><%- x.sdecs %></p>
+            <% if(x.category.map !== undefined) { %>
+            <p><%- x.category.map(x => `
+            <span class="badge badge-primary">${x}</span>
+            `).join("") %></p>
+            <% }else{ %>
+            <p><span class="badge badge-primary"><%- x.category %></span></p>
+            <% } %>
+            <hr>
+            <!--iv class="button-view-invite">
+            <a class="view-invite">View</a>
+            <a class="view-invite">Invite</a>
+            </div-->
+            <div class="row">
+              <div class="col">
+                <a class="view-invite" href="/bot/<%- x.id %>">View</a>
+              </div>
+              <div class="col">
+                <a class="view-invite" href="<%- x.invite %>">Invite</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+      <% })} else { %>
+      <h1 class="text-center mt-5 mb-3">Bot Not Found</h1>
+      <% }%>
+    </div>
+    
+    <div class="container" data-bs-spy="" data-bs-target="#category" data-bs-offset="0" tabindex="0" style="outline:none;">
+      <h1 class="" id="explore-tags">All Tags</h1>
+      <div class="all-category" style="background-color:#2c2f33;">
+        <% category.map(x => { %>
+        <a class="category btn" href="/tag/<%- x.name.toLowerCase() %>"><i class="<%- x.icon %>"></i> <%- x.name %></a>
+        <% }) %>
+      </div>
+    </div>
+    <br><br>
+    
+  </body>
+</html>
+<!-- Bootstrap Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script><div class="row row-cols-1 row-cols-md-3 g-4">

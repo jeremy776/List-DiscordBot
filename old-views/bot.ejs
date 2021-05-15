@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<head>
+
+ <!-- Font Awesome -->
+<script src='https://kit.fontawesome.com/a076d05399.js'></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<!--<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">-->
+<!-- Google Fonts -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
+<!-- Bootstrap core CSS -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
+<!-- Material Design Bootstrap -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/css/mdb.min.css" rel="stylesheet">
+  
+  <title>Bot | <%= client.users.cache.get(req.params.id).username %></title>
+ 
+  <%
+  let asu = db.get("ldb")
+  let dat = asu.indexOf(asu.filter(x => x.id === req.params.id)[0])
+  %>
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel='icon' href="<%= client.users.cache.get(req.params.id).displayAvatarURL() %>">
+  <meta property="og:title" content="<%= client.users.cache.get(req.params.id).username%>">
+  <meta property="og:image" content="<%= client.users.cache.get(req.params.id).displayAvatarURL()%>">
+  <meta property="og:description" content="<%= db.get(`ldb.${dat}.sdecs`) %>">
+  <meta property="og:site_name" content="list-discordbot">
+  <meta name="theme-color" content="#FFFFFF">
+</head>
+
+<body style="background:#23272A;">
+<!--  Navbar bagian dekstop  -->
+
+ <nav class="navbarr navbar fixed-top navbar-dark" style="background:#23272A">
+
+  <!-- Navbar brand -->
+  <a class="navbar-brand" href="#">
+    <img src="https://cdn.glitch.com/fafda016-78f3-4788-ba74-9281fad6bc3f%2Fimages__2_-removebg-preview%20(1).png?v=1599579616044" with="30" height="30">
+  </a>
+
+  <!-- Collapse button -->
+  <button class="navbar-toggler button3" type="button" data-toggle="collapse" data-target="#navbarSupportedContent22"
+    aria-controls="navbarSupportedContent22" aria-expanded="false" aria-label="Toggle navigation">
+    <div class="animasi"><span></span><span></span><span></span></div>
+  </button>
+
+  <!-- Collapsible content -->
+  <div class="collapse navbar-collapse" id="navbarSupportedContent22">
+
+    <!-- Links -->
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="/"><i class="fa fa-home" aria-hidden="true"></i> Home <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/discord"><i class="fab fa-discord"></i> Discord</a>
+      </li>
+      <li class="nav-item">
+        
+        <% if(!req.user) { %>
+        <a class="nav-link" href="/login"><i class="fa fa-sign-in"></i> Login</a>
+        <% }else{ %>
+        
+         <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown"
+          aria-haspopup="true" aria-expanded="false">My account</a>
+        <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
+          <a class="dropdown-item" href="/me"><i class="fa fa-user-circle" aria-hidden="true"></i> <%= req.user.username %>#<%= req.user.discriminator %></a>
+          <a class="dropdown-item" href="/add"><i class="fa fa-plus-circle" aria-hidden="true"></i> Add bot</a>
+          <a class="dropdown-item" href="/logout"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</a>
+        </div>
+      </li>
+
+    </ul>
+        
+        <% } %>
+        
+      </li>
+    </ul>
+    </div>
+  </nav>
+  <br><br>
+<!--  Akhir Navbar bagian dekstop  -->
+  
+
+  <% 
+  let a = db.get("ldb")
+  let data = a.indexOf(a.filter(x => x.id === req.params.id)[0])
+  
+  let deskripsi = markdown.toHTML(db.get(`ldb.${data}.description`))
+  let userda;
+  %>
+
+<!--  DETEKSI OWNER BOT  -->
+<center>
+   <div class='boxnya card text-center shadow p-3 mb-5 rounded'>
+     <div class="card-image" style="margin:20px;">
+          <img src='<%= client.users.cache.get(db.get(`ldb.${data}.id`)).displayAvatarURL() %>' class='test circle responsive-img' style='border-radius:70px;'>
+       <br><span class="card-title" style='color:white;'><b><h2><%= client.users.cache.get(db.get(`ldb.${data}.id`)).username %></h2></b></a></span>
+     <a class='owner'>Prefix: <b><%= db.get(`ldb.${data}.prefix`) %></b></a>
+        
+       <hr>
+     <p class='owner' style='width:auto; margin:20px;'>Owner: <b><a href='/user/<%= db.get(`ldb.${data}.ownerId`) %>'><%= client.users.cache.get(db.get(`ldb.${data}.ownerId`)).tag %></a></b></p>
+       <hr>
+       
+     </div>
+        <div class="card-content white-text">
+          <span class="card-title"></span>
+          <h6 style="color:white;"><%= db.get(`ldb.${data}.sdecs`) %></h6>
+        </div>
+        <div class="card-action">
+          
+          <% if(db.get(`ldb.${data}.status`) === true) { %>
+          <a class="btn btn-warning" href="/vote/<%= req.params.id %>" role="button">Vote</a>
+          <% } %>
+          
+          <a class="btn btn-primary" href="<%= db.get(`ldb.${data}.invite`) %>" role="button">Invite</a>
+          
+          <% if(user && (db.get(`ldb.${data}.ownerId`) == user.id)) { %>
+          <a class="btn btn-success" href="/edit/<%= req.params.id %>" role="button">Edit</a>
+         <% } %>
+          <br><br>
+          
+          <% if(db.get(`ldb.${data}.category`) !== undefined) { %>
+      
+            <% let b = db.get(`ldb.${data}.category`)
+            let y = b.split(", ");
+            let c = y.filter(x => x !== "Default")
+            %>
+            
+          <% if(c.length > 0) { %>
+            <h3 class="text-category"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-tags" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+  <path fill-rule="evenodd" d="M3 2v4.586l7 7L14.586 9l-7-7H3zM2 2a1 1 0 0 1 1-1h4.586a1 1 0 0 1 .707.293l7 7a1 1 0 0 1 0 1.414l-4.586 4.586a1 1 0 0 1-1.414 0l-7-7A1 1 0 0 1 2 6.586V2z"/>
+  <path fill-rule="evenodd" d="M5.5 5a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1zm0 1a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"/>
+  <path d="M1 7.086a1 1 0 0 0 .293.707L8.75 15.25l-.043.043a1 1 0 0 1-1.414 0l-7-7A1 1 0 0 1 0 7.586V3a1 1 0 0 1 1-1v5.086z"/>
+</svg> Tags:</h3>
+          
+            <div class="category-0">
+            <%- c.map(x => `<div class="category">${x}</div>`) %>
+          </div>
+          <% }
+          } %>
+          
+          
+          <br><br>
+          
+    <div class='asww'>
+          
+       <span class="badge badge-primary badge-pill">
+         
+         <% if(db.get(`ldb.${data}.status`) === true) { %>
+         <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-check-circle-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <path fill-rule="evenodd" d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+        </svg> Approved
+         <% } %>
+      
+         <% if(db.get(`ldb.${data}.status`) === false) { %>
+         PENDING
+         <% } %>
+      </span>
+        
+        <span class="badge badge-primary badge-pill"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-up-circle-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <path fill-rule="evenodd" d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-7.5 3.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707V11.5z"/>
+        </svg> <%= db.get(`vote.${req.params.id}`) || "0" %> Votes</span>
+
+        <%
+        let promote = client.guilds.cache.get("725966967797972992").members.cache.filter(m => m._roles.includes("752042076547579924")).map(x => x.id)
+        %>
+      
+        <% if(promote.includes(req.params.id)) { %>
+        <span class="badge badge-primary badge-pill"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-star-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.283.95l-3.523 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+        </svg> Promoted</span>
+       <% } %>
+        
+    </div>
+          
+        </div><br>
+      </div>
+     </center>
+
+  <div class='desc card bg-white deskripsi shadow p-3 mb-5 bg-white rounded text-dark'>
+    <div class='anjay'>
+      <div><%- description %></div>
+    </div>  
+  </div>
+
+
+</body>
+</html>
+
+
+<!-- JQuery -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<!-- Bootstrap tooltips -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>
+<!-- Bootstrap core JavaScript -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.min.js"></script>
+<!-- MDB core JavaScript -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/js/mdb.min.js"></script>
+
+<style>
+  
+  .text-category {
+    color:white;
+    font-weight:bold;
+  }
+  
+  .category-0 {
+    display:flex;
+    flex-wrap:wrap;
+    float:left;
+  }
+  
+  .category {
+    display: inline-block;
+    font-size: 15px;
+    padding:3px;
+    border-radius: 30px;
+    background-color: #f1f1f1;
+  }
+  
+  .owner, .pref{
+    color:white !important;
+  }
+  
+  .anjay img{
+    width:auto;
+    height:450px;;
+  }
+  
+  #keatas{
+    border-radius:200px !important;
+    box-shadow:1px 3px 6px black;
+  }
+  
+  .asww{
+    text-align:left !important;
+  }
+  
+  .asew{
+    color:white;
+  }
+  
+  .judul{
+    color:white;
+  }
+  
+  
+  .boxnya{
+    width:auto;
+    margin:10px;
+    background:#2C2F33 !important;
+    transition:0.5s;
+  }
+  
+  .anjay{
+    width:auto;
+    margin:5px;
+    color:black;
+  }
+  
+  
+/*  RESPONSIVE */
+@media (min-width:320px)  { /* jika di android dengan ukuran 480x320*/
+  .boxnya{
+    width:auto;
+  }
+  .anjay{
+    width:auto;
+  }
+  .anjay img{
+    width:auto;
+    height:50px;
+  }
+}
+  
+@media (min-width:481px)  { /* potret ereaders (nook / kindle), tablet yang lebih kecil @ 600 atau @ 640 lebar*/
+  .boxnya{
+   width:auto; 
+  }
+  
+  .anjay{
+    width:auto;
+  }
+  
+  .anjay img{
+    width:auto;
+    height:300px;
+  }
+}
+  
+/* @media (min-width:641px)  { portrait tablets, portrait iPad, landscape e-readers, landscape 800x480 or 854x480 phones } */
+  
+@media (min-width:961px)  { /* jika di laptop, pc, dan iphone dengan ukuruna @ 961px*/
+  .boxnya{
+    width:50%;
+  }
+  
+  .anjay{
+    width:50%;
+  }
+}
+
+  @media (min-width:1025px) { /* laptop, tablets dan komputer*/
+    .boxnya{
+      width:50%;
+    }
+    
+    .anjay{
+      width:50%;
+    }
+}
+  
+  
+@media (min-width:1281px) { /* Laptop dan Komputer*/
+  .boxnya{
+    width:50%;
+  }
+  
+  .anjay img{
+    width:auto;
+    height:50px;;
+  }
+}
+/*  ==========================================================================================================================================  */
+  
+  .boxnya:hover{
+    transition:0.5s;
+    box-shadow:3px 7px 6px black;
+  }
+  
+  .test{
+    width:100px !important;
+    border-radius:150px !important;
+    margin:10px;
+    box-shadow:1px 3px 10px black;
+  }
+  
+  .judul{
+    text-align:center;
+  }
+  
+  .animasi{
+width: 30px;
+height: 20px;
+position: relative;
+margin: 0px;
+-webkit-transform: rotate(0deg);
+-moz-transform: rotate(0deg);
+-o-transform: rotate(0deg);
+transform: rotate(0deg);
+-webkit-transition: .5s ease-in-out;
+-moz-transition: .5s ease-in-out;
+-o-transition: .5s ease-in-out;
+transition: .5s ease-in-out;
+cursor: pointer;
+  }
+  
+  .animasi span {
+display: block;
+position: absolute;
+height: 3px;
+width: 100%;
+border-radius: 9px;
+opacity: 1;
+left: 0;
+-webkit-transform: rotate(0deg);
+-moz-transform: rotate(0deg);
+-o-transform: rotate(0deg);
+transform: rotate(0deg);
+-webkit-transition: .25s ease-in-out;
+-moz-transition: .25s ease-in-out;
+-o-transition: .25s ease-in-out;
+transition: .25s ease-in-out;
+  }
+  
+  .animasi span{
+    background: #f3e5f5;
+  }
+  
+  .animasi span:nth-child(1) {
+top: 0px;
+-webkit-transform-origin: left center;
+-moz-transform-origin: left center;
+-o-transform-origin: left center;
+transform-origin: left center;
+}
+
+.animasi span:nth-child(2) {
+top: 10px;
+-webkit-transform-origin: left center;
+-moz-transform-origin: left center;
+-o-transform-origin: left center;
+transform-origin: left center;
+}
+
+.animasi span:nth-child(3) {
+top: 20px;
+-webkit-transform-origin: left center;
+-moz-transform-origin: left center;
+-o-transform-origin: left center;
+transform-origin: left center;
+}
+
+.animasi.open span:nth-child(1) {
+-webkit-transform: rotate(45deg);
+-moz-transform: rotate(45deg);
+-o-transform: rotate(45deg);
+transform: rotate(45deg);
+top: 0px;
+left: 8px;
+}
+
+.animasi.open span:nth-child(2) {
+width: 0%;
+opacity: 0;
+}
+
+.animasi.open span:nth-child(3) {
+-webkit-transform: rotate(-45deg);
+-moz-transform: rotate(-45deg);
+-o-transform: rotate(-45deg);
+transform: rotate(-45deg);
+top: 21px;
+left: 8px;
+}
+  
+  .keatas{
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    display: none;
+}
+
+</style>
+
+<script>
+  $(document).ready(function () {
+  $('.button3').on('click', function () {
+
+    $('.animasi').toggleClass('open');
+  });
+});
+</script>

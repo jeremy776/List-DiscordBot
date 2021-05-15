@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- Required meta tags -->
+    <script async src="https://arc.io/widget.min.js#LeaEkRp8"></script>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#4285f4">
+    <meta name="og:image" content="<%- client.user.displayAvatarURL({size:2048, format:'png'}) %>" />
+    <meta name="og:description" content="a website where you can add the bots that you create, and you can also search for bots created by other developers"/>
+    <meta name="og:title" content="<%- client.user.username %>">
+    <!-- CUSTOM CSS -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.3/css/all.css" integrity="sha384-SZXxX4whJ79/gErwcOYf+zWLeJdY/qpuqC4cAa9rOGUstPomtqpuNWT9wdPEn2fk" crossorigin="anonymous">
+    <link rel="stylesheet" href="/home/style.css">
+    <link rel="stylesheet" href="/navbar.css">
+    <!-- Bootstrap CSS & ICON -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.0/font/bootstrap-icons.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+    <title>List DiscordBot</title>
+  </head>
+  
+  <body id="body">
+    <nav class="navbar navbar-expand-lg navbar-dark">
+      <div class="container">
+        <a class="navbar-brand" href="#">
+          <img src="https://cdn.discordapp.com/attachments/700935494711771147/841545130636476436/image_18.png" width="40" height="34">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <i class="fas fa-bars"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="#">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/discord">Join Discord</a>
+            </li><% if(req.user) { %>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="dropdown-account" data-bs-toggle="dropdown" aria-expanded="false"><%- req.user.username %>#<%- req.user.discriminator %></a>
+              <ul class="dropdown-menu" aria-labelledby="dropdown-account">
+                <li><a class="dropdown-item" href="/add">Add Bot</a></li>
+                <li><a class="dropdown-item" href="/user/<%- req.user.id %>">Profile</a></li>
+                <li><a class="dropdown-item" href="/logout">Logout</a></li>
+              </ul>
+            </li>
+            <% }else{ %>
+            <li class="nav-item">
+              <a class="nav-link" href="/login">Login</a>
+            </li>
+            <% } %>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div class="text-center heading">
+      <div class="row">
+        <div class="col-md-6">
+          <img class="img-fluid" src="https://cdn.discordapp.com/attachments/700935494711771147/841562725892358184/Tanpa_judul_5.png">
+        </div>
+        <div class="col-md-6">
+          <div class="">
+            <h4>Find Bots for your Server now!</h4>
+            <p class="heading-text">Improve your Discord experience with some Discord bots</p>
+            <div class="input-group">
+            <input id="search-name" placeholder="Search Bot" type="text" aria-describe="search-button" required>
+            <button class="searchButton" type="button" id="search-button"><i class="fas fa-search"></i></button>
+            <script>document.getElementById("search-button").addEventListener("click", function() {if(document.getElementById("search-name").value.length < 1) {return;}else{
+              window.location.href = "/search/"+ document.getElementById("search-name").value.toLowerCase();
+            }});</script>
+            </div>
+            <div class="box-category text-start" id="category">
+              <a class="category btn" href="/tag/moderation"><i class="bi bi-hammer"></i> Moderation</a>
+              <a class="category btn" href="/tag/music"><i class="bi bi-music-note-beamed"></i> Music</a>
+              <a class="category btn" href="#explore-tags"><i class="bi bi-tags"></i> Explore Tags</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="container-fluid mb-5">
+      
+      <h1 style="font-size:50px;" class="text-center mt-5"><i style="color:#7289DA;font-weight:800;" class="fas fa-chevron-up"></i> Top Vote</h1>
+      <p style="color:rgba(225, 225, 225, 0.7);" class="text-center mb-5">This is the bot with the most votes</p>
+      <div class="row row-cols-1 row-cols-md-3 g-4">
+        
+        <% allData.map(x => x.data).filter(x => x.status == true).map(x => x).sort(function(a, b) { return parseFloat(b.vote) - parseFloat(a.vote) }).slice(0,3).map((x, i) => { %>
+        <div class="col">
+          <div class="card<%-i%> card
+                      <% if(x.bgURL) { %>
+                      custom
+                      <% } %>" style="background:url(<%- x.bgURL %>);">
+            <img src="<%- client.users.cache.get(x.id).displayAvatarURL({format:"png", size:2048}) %>" class="card-img-custom" alt="<%- client.users.cache.get(x.id).username %>">
+            <div class="card-body">
+              
+              <div class="lensa" style="overflow:hidden;">
+                <% if(i == 0) { %>
+                <img class="lensa<%-i%>" src="https://cdn.discordapp.com/attachments/700935494711771147/833227779314679878/1618727365355.png" alt="TOP 1 VOTE">
+                <% } %>
+                <% if(i == 1) { %>
+                <img class="lensa<%-i%>" src="https://cdn.discordapp.com/attachments/700935494711771147/833228987555381248/1618727660163.png" alt="TOP 2 VOTE">
+                <% } %>
+                <% if(i == 2) { %>
+                <img class="lensa<%-i%>" src="https://cdn.discordapp.com/attachments/700935494711771147/833229807361851422/1618727852608.png" alt="TOP 3 VOTE">
+                <% } %>
+              </div>
+              
+              <div class="btn-card mb-3">
+                <a class="btn-vote" href="/vote/<%- x.id %>"><i class="fas fa-chevron-up"></i> <%- x.vote.toLocaleString() || "N/A" %></a>
+              </div>
+              <h5 class="card-title"><%- client.users.cache.get(x.id).username %></h5>
+              <p class="card-text shortDesc"><%- x.sdecs %></p>
+              <% if(x.category.map !== undefined) { %>
+              <p><%- x.category.map(y => `
+              <span class="badge badge-primary">${y}</span>
+              `).join("") %></p>
+              <% }else{ %>
+              <p><span class="badge badge-primary"><%- x.category %></span></p>
+              <% } %>
+              <hr>
+              <div class="row">
+                <div class="col">
+                  <a href="/bot/<%- x.id %>" class="view-invite">View</a>
+                </div>
+                <div class="col">
+                  <a href="<%- x.invite %>" class="view-invite">Invite</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <% }).join("") %>
+        
+      </div>
+      
+      
+      <h1 class="text-center mt-5 mb-3"><i class="bi bi-shuffle"></i> Random Bot</h1>
+    <div class="row row-cols-1 row-cols-md-4 g-4">
+      <% let approve = allData.map(x => x.data).filter(x => x.status == true)
+      let idTopVote = approve.map(x => x).sort(function(a,b) { return parseFloat(b.vote) - parseFloat(a.vote) }).slice(0,3).map(x => x.id)
+      approve.filter(x => !idTopVote.includes(x.id)).sort(function(a, b){return 0.5 - Math.random()}).map(x => { %>
+      <div class="col">
+        <div class="card <% if(x.bgURL) { %>
+        custom
+        <% } %>" style="background:url(<%- x.bgURL %>);">
+          <img src="<%- client.users.cache.get(x.id).displayAvatarURL({format:"png", size:2048}) %>" class="card-img-custom" alt="<%- client.users.cache.get(x.id).username %>">
+          <div class="card-body">
+            <!--div class="status">
+              <h1 class="client.users.cache.get(x.id).presence.status.toLowerCase()">client.users.cache.get(x.id).presence.status</h1>
+            </div-->
+            <div class="btn-card mb-3">
+              <a class="btn-vote" href="/vote/<%- x.id %>"><i class="fas fa-chevron-up"></i> <%- x.vote.toLocaleString() || "N/A"%></a>
+              
+            </div>
+            <h5 class="card-title"><%- client.users.cache.get(x.id).username %></h5>
+            <p class="card-text shortDesc"><%- x.sdecs %></p>
+            <% if(x.category.map !== undefined) { %>
+            <p><%- x.category.slice(0,2).map(y => `
+            <span class="badge badge-primary category-button ml-3 mt-1">${y}</span>
+            `).join("") %></p>
+            <% }else{ %>
+            <p class=""><span class="badge badge-primary"><%- x.category %></span></p>
+            <% } %>
+            <hr>
+            <!--iv class="button-view-invite">
+            <a class="view-invite">View</a>
+            <a class="view-invite">Invite</a>
+            </div-->
+            <div class="row">
+              <div class="col">
+                <a class="view-invite" href="/bot/<%- x.id %>">View</a>
+              </div>
+              <div class="col">
+                <a class="view-invite" href="<%- x.invite %>">Invite</a>
+              </div>
+              
+            </div>
+          </div>
+        </div>
+      </div>
+      <% }) %>
+      </div><br><br>
+    </div>
+    
+    <% if(req.user) { %>
+    <div class="reportModal">
+      <img id="reportModal" src="https://cdn.discordapp.com/attachments/700935494711771147/841635813506023434/Tanpa_judul_12.png" alt="Report bug">
+    </div>
+    
+      <div class="askModal" id="askModal">
+        <p>Anda punya masalah?</p>
+      </div>
+    <% } %>
+    
+    <div class="container" data-bs-spy="" data-bs-target="#category" data-bs-offset="0" tabindex="0" style="outline:none;">
+      <h1 class="" id="explore-tags"><i class="fas fa-tags"></i> Tags</h1>
+      <div class="all-category" style="background-color:#2c2f33;border-radius:5px;">
+        <% category.map(x => { %>
+        <a class="category btn" href="/tag/<%- x.name.toLowerCase() %>"><i class="<%- x.icon %>"></i> <%- x.name %></a>
+        <% }) %>
+      </div>
+    </div><br><br><br>
+    
+    <!--div class="logo-bot" style="position:relative;max-width:100%;">
+    <img class="logo" style="max-width:100%;pointer-events: none;position:absolute;width:1500px;z-index:-1;opacity:0.2;bottom:0;right:0;" src="https://cdn.discordapp.com/attachments/700935494711771147/832810506782769182/Tanpa_judul_5.png">
+    </div-->
+    
+    <footer>
+      <div class="text-center container-fluid">
+        <p>&copy; Copyright List DiscordBot 2021.<br>All right reserved</p>
+      </div>
+    </footer>
+    
+  </body>
+</html>
+<!-- Bootstrap Bundle with Popper -->
+<script src="/home/script.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script><div class="row row-cols-1 row-cols-md-3 g-4">
