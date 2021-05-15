@@ -1,0 +1,42 @@
+[
+  {
+    "name": "Music",
+    "icon": "bi bi-music-note-beamed"
+  },
+  {
+    "name": "Moderation",
+    "icon": "bi bi-hammer"
+  },
+  {
+    "name": "Dashboard",
+    "icon": "bi bi-hdd-rack"
+  },
+  {
+    "name": "Fun",
+    "icon": "bi bi-gem"
+  },
+  {
+    "name": "Gaming",
+    "icon": "bi bi-controller"
+  },
+  {
+    "name": "Nsfw",
+    "icon": "bi bi-heart-fill"
+  },
+  {
+    "name": "Economy",
+    "icon": "bi bi-cash"
+  },
+  {
+    "name": "MiniGame",
+    "icon": "bi bi-joystick"
+  },
+  {
+    "name": "Leveling",
+    "icon": "bi bi-capslock"
+  },
+  {
+    "name": "Utility",
+    "icon": "bi bi-brush"
+  }
+]

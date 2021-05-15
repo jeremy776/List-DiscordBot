@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+
+    <title><%- client.user.username %> | Not Found!</title>
+  </head>
+  <body style="background-color:#2c2f33;">
+    
+    <div class="jumbotron">
+      <div class="container">
+        <img id="img" alt="Just 1 click and see what happens" class="img-fluid" src="https://cdn.discordapp.com/attachments/700935494711771147/841597668228595732/Tanpa_judul_10.png">
+        <h1 class="title text-center text-white mb-5">PAGE NOT FOUND</h1>
+      </div>
+    </div>
+    
+    <div class="modals" id="modals">
+      <nav class="navbar sticky-top navbar-lg-expand navbar-light">
+        <div class="container">
+          <h1 id="backButton"><i class="bi bi-arrow-left-circle"></i></h1>
+        </div>
+      </nav>
+      <div class="container">
+        <h1>SOON.</h1>
+      </div>
+    </div>
+    
+    <script>
+      let img = document.getElementById("img");
+      let modal = document.getElementById("modals");
+      
+      
+      img.addEventListener("click", function() {
+        modal.style.display = "block"
+        setTimeout(() => {
+          modal.style.top = "0";
+        }, 200);
+      });
+      /* CLOSE MODAL */
+      let back = document.getElementById("backButton");
+      back.addEventListener("click", function() {
+        modal.style.top = "100vh";
+        setTimeout(() => {
+          modal.style.display = "none";
+        }, 700);
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+  </body>
+</html>
+
+<style>
+  nav {
+    background-color:#7289DA;
+    color:white;
+  }
+  
+  img {
+    filter:drop-shadow(-1px 0px 1px rgba(0,0,0,0.7));
+  }
+  .title {
+    font-weight:900;
+    margin-top:-35px;
+    text-shadow:-2px 0px 1px rgba(0,0,0,0.8);
+  }
+  .jumbotron {
+    display:flex;
+    align-items:center;
+    min-height:90vh;
+  }
+  body {
+    background:url("https://cdn.discordapp.com/attachments/700935494711771147/841585627795685386/Tanpa_judul_8.jpg");
+    background-repeat:no-repeat;
+    background-size:cover;
+    background-position:top;
+    height:100vh;
+    width:100vw;
+  }
+  .modals {
+    background-color:#f8f9fa;
+    width:100vw;
+    height:100%;
+    position:fixed;
+    top:100vh;
+    display:none;
+    transition:top 0.7s ease;
+  }
+</style>

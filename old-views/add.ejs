@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <!-- Font Awesome -->
+<script src='https://kit.fontawesome.com/a076d05399.js'></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<!--<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">-->
+<!-- Google Fonts -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
+<!-- Bootstrap core CSS -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
+<!-- Material Design Bootstrap -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/css/mdb.min.css" rel="stylesheet">
+
+  <title>ADD BOT | LDB</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+  <body style="background:#23272A">
+<!--  Navbar bagian dekstop  -->
+
+
+  <nav class="navbarr navbar fixed-top navbar-dark" style="background:#23272A">
+
+  <!-- Navbar brand -->
+  <a class="navbar-brand" href="#">
+    <img src="https://cdn.glitch.com/fafda016-78f3-4788-ba74-9281fad6bc3f%2Fimages__2_-removebg-preview%20(1).png?v=1599579616044" with="30" height="30">
+  </a>
+
+  <!-- Collapse button -->
+  <button class="navbar-toggler button3" type="button" data-toggle="collapse" data-target="#navbarSupportedContent22"
+    aria-controls="navbarSupportedContent22" aria-expanded="false" aria-label="Toggle navigation">
+    <div class="animasi"><span></span><span></span><span></span></div>
+  </button>
+
+  <!-- Collapsible content -->
+  <div class="collapse navbar-collapse" id="navbarSupportedContent22">
+
+    <!-- Links -->
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="/"><i class="fa fa-home" aria-hidden="true"></i> Home <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/discord"><i class="fab fa-discord"></i> Discord</a>
+      </li>
+      <li class="nav-item">
+        
+        <% if(!req.user) { %>
+        <a class="nav-link" href="/login"><i class="fa fa-sign-in"></i> Login</a>
+        <% }else{ %>
+        
+         <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown"
+          aria-haspopup="true" aria-expanded="false">My account</a>
+        <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
+          <a class="dropdown-item" href="/me"><i class="fa fa-user-circle" aria-hidden="true"></i> <%= req.user.username %>#<%= req.user.discriminator %></a>
+          <a class="dropdown-item" href="/add"><i class="fa fa-plus-circle" aria-hidden="true"></i> Add bot</a>
+          <a class="dropdown-item" href="/logout"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</a>
+        </div>
+      </li>
+
+    </ul>
+        
+        <% } %>
+        
+      </li>
+    </ul>
+  </div>
+  </nav>
+  <br><br>
+
+<!--  Akhir Navbar bagian dekstop  -->
+
+    <%
+    let guild = client.guilds.cache.get('725966967797972992')
+    let test = guild.members.cache.get(user.id);
+    %>
+    
+    <% if(!test) { %>
+    <br>
+      
+<div class="alert alert-warning alert-dismissible fade show col-12" role="alert">
+  <strong>WARNING!</strong> You must join the server first to add your bot.
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+    
+<form class='col 12'>
+    
+  <div class="form-group">
+    <br>
+    <label for="id" class='label'>Id Bot</label>
+    <input type="text" autocomplete="off" class="form-control" id="id" name='id' disabled>
+  </div>
+  
+  <div class="form-group">
+    <label for="prefix" class='label'>Prefix bot</label>
+    <input type="text" autocomplete="off" class="form-control" id="prefix" name='prefix' disabled>
+  </div>
+  
+  <div class='form-group'>
+    <label for="inv" class='label'>Invite url</label>
+    <input id="inv" autocomplete="off" name='inv' type="text" class="form-control" disabled>
+  </div>
+  
+  <div class='form-group'>
+    <label for="about" class='label'>Small description</label>
+    <input id="about" autocomplete="off" name='about' type="text" class="form-control" disabled>
+  </div>
+  
+   <div class="form-group">
+    <label for="decs" class='label'>Description</label>
+    <small id="decs" class="form-text text-muted">Only Support Markdown</small>
+     <textarea class="decs form-control" id="decs" name='decs' rows="4" disabled></textarea>
+  </div>
+  
+  <button type="button" onclick='discord()' class="btn btn-primary">Join Server</button>
+</form>
+    <br>
+      <br>
+    <% } %>
+    
+    <% if(test) { %>
+    <br><br>
+<form action='/asu' method='post' class='col s12'>
+  <div class="form-group">
+    <label for="id" class='label'>Id*</label>
+    <input type="number" autocomplete="off" class="form-control" id="id" name='id' oninput="punyaSaya()" required>
+    
+    <div class="invalid-feedback" id="inval-id">
+      
+    </div>
+    
+  </div>
+  
+  <div class="form-group">
+    <label for="prefix" class='label'>Prefix*</label>
+    <input type="text" autocomplete="off" class="form-control" id="prefix" name='prefix' oninput="prefixSaya()" required>
+    
+    <div class="invalid-feedback">
+      you must fill in this form!
+    </div>
+  </div>
+  
+  <div class="form-group">
+    <label for="lib" class="label">Library:</label>
+    <select name="lib" id="lib" class="form-control" onchange="myFunction()" required>
+      <option value="" disabled selected>Select Library</option>
+      <option value="Discord.js">Discord.js</option>
+      <option value="Serenity">Serenity</option>
+      <option value="aegis.cpp">aegis.cpp</option>
+      <option value="discordcr">discordcr</option>
+      <option value="Discord.Net">Discord.Net</option>
+      <option value="DSharpPlus">DSharpPlus</option>
+      <option value="dscord">dscord</option>
+      <option value="DiscordGo">DiscordGo</option>
+      <option value="DisGord">DisGord</option>
+      <option value="JDA">JDA</option>
+      <option value="catnip">catnip</option>
+      <option value="Discord4J">Discord4J</option>
+      <option value="Javacord">Javacord</option>
+      <option value="Eris">Eris</option>
+      <option value="Discord.jl">Discord.jl</option>
+      <option value="Discordia">Discordia</option>
+      <option value="Discordnim">Discordnim</option>
+      <option value="RestCord">RestCord</option>
+      <option value="Discord.py">Discord.py</option>
+      <opiton value="disco">disco</option>
+      <option value="discordrb">discordrb</option>
+      <option value="discord-rs">discord-rs</option>
+      <option value="discljord">discljord</option>
+      <option value="AckCord">AckCord</option>
+      <option value="Sword">Sword</option>
+      <option value="Discordeno">Discordeno</option>
+      <option value="Other">Other....</option>
+    </select>
+  </div>
+  <input type="hidden" id="library" name="library" value="not working" readonly>
+  
+ <div class="form-group">
+   <label for="category" class="label">Category</label>
+   <select name="demoSel[]" id="demoSel" class="form-control" multiple="multiple" required>
+     <option value="" disabled>Category</option>
+     <option value="Leveling">Leveling</option>
+     <option value="Moderation">Moderation</option>
+     <option value="Nsfw">Nsfw</option>
+     <option value="Music">Music</option>
+     <option value="Anime">Anime</option>
+     <option value="Game">Gaming</option>
+     <option value="Fun">Fun</option>
+     <option value="Utility">Utility</option>
+     <option value="Minigame">Minigame</option>
+   </select>
+   
+   <div class="invalid-feedback" id="invalid">
+     
+   </div>
+   
+  </div>
+  <input type="hidden" id="category" name="category" value="select your category (not working)" readonly>
+  
+  <div class='form-group'>
+    <label for="inv" class='label'>Invite url</label>
+    <input id="inv" autocomplete="off" name='inv' type="text" class="form-control" oninput="inviteSaya()">
+    
+    <div class="invalid-feedback">
+      You entered an invalid url, try to enter a valid invite url
+    </div>
+    
+  </div>
+  
+  <div class='form-group'>
+    <label for="about" class='label'>Small description*</label>
+    <input id="about" autocomplete="off" name='about' type="text" oninput="decsSaya()" class="form-control" required>
+    
+    <div class="invalid-feedback">
+      Provide a description of at least 50 characters
+    </div>
+  </div>
+  <!--
+<div class="form-group">
+    <label for="server" class="label">Support Server</label>
+  <div class="input-group mb-2">
+        <div class="input-group-prepend">
+          <div class="input-group-text">https://discord.gg/</div>
+        </div>
+        <input type="text" class="form-control" id="server" maxlength="7" minlength="7" oninput="serverSaya()">
+    
+    <div class="invalid-feedback" id="servernya">
+      
+    </div>
+  </div>
+  </div>
+  
+  <div class="form-group">
+    <label for="web" class="label">Website</label>
+    <input type="text" class="form-control" id="web" name="web" oninput="inviteSaya()" autocomplete="off">
+    
+    <div class="invalid-feedback">
+      You entered an invalid website
+    </div>
+  </div>-->
+  
+   <div class="form-group">
+     <label for="decs" class="label">Description*</label>
+     
+     <div class="md-form md-outline">
+    <label for="decs" class="aye">Support Markdown</label>
+    <textarea type='text' class="decs form-control md-textarea" id="decs" name='decs' rows="4"  minlength='150' required></textarea>
+     </div>
+  </div>
+  
+  
+  <button type="submit" id="submit" class="btn btn-primary" disabled>Submit</button>
+</form>
+    <br>
+
+<!--<form action="#" method="post" id="demoForm" class="demoForm">
+    <fieldset>
+        <legend>Demo: Get Selected Options</legend>
+    
+        <p>
+            <select name="demoSel[]" id="demoSel" size="4" multiple>
+                <option value="scroll">Scrolling Divs JavaScript</option>
+                <option value="tooltip">JavaScript Tooltips</option>
+                <option value="con_scroll">Continuous Scroller</option>
+                <option value="banner">Rotating Banner JavaScript</option>
+                <option value="random_img">Random Image PHP</option>
+                <option value="form_builder">PHP Form Generator</option>
+                <option value="table_class">PHP Table Class</option>
+                <option value="order_forms">PHP Order Forms</option>
+            </select>
+            <input type="submit" value="Submit" />
+            <textarea name="display" id="display" placeholder="view select list value(s) onchange" cols="20" rows="4" readonly></textarea>
+        </p>
+        
+    </fieldset>
+</form>-->
+    <% } %>
+
+  </body>
+
+<!-- JQuery -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<!-- Bootstrap tooltips -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>
+<!-- Bootstrap core JavaScript -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.min.js"></script>
+<!-- MDB core JavaScript -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/js/mdb.min.js"></script>
+
+<script>
+  //SUPPORT SERVER
+  function serverSaya(){
+    let bjir = document.getElementById("server")
+    let submit = document.getElementById("submit")
+    let fail = document.getElementById("servernya")
+    
+    if(bjir.value == bjir.value.toUpperCase()){
+      bjir.classList.add("is-invalid")
+      submit.disabled = true;
+      servernya.innerHTML = "Enter the correct link";
+    }else{
+      bjir.classList.remove("is-invalid")
+      submit.disabled = false;
+    }
+    
+    if(bjir.value.length == 0){
+      bjir.classList.remove("is-invalid")
+      submit.disabled = false;
+    }
+  }
+  
+  //SMALL DESCRIPTION CHECK
+  function decsSaya() {
+    let a = document.getElementById("about")
+    let b = document.getElementById("submit");
+    
+    if(a.value.length > 50) {
+      a.classList.add("is-valid")
+      b.disabled = false;
+      a.classList.remove("is-invalid")
+    }else{
+      a.classList.add("is-invalid")
+      b.disabled = true;
+    }
+    
+    if(a.value.length == 0){
+      a.classList.remove("is-invalid") || a.classList.remove("is-valid")
+      b.disabled = true;
+    }
+  }
+  
+  
+  //PREFIX CHECK
+  function prefixSaya() {
+    let prefix = document.getElementById("prefix")
+    
+    if(prefix.value.length > 0){
+      prefix.classList.add("is-valid")
+      prefix.classList.remove("is-invalid")
+    }else{
+      prefix.classList.remove("is-valid")
+      prefix.classList.add("is-invalid")
+    }
+  }
+  
+  
+  //REGEX INVITE URL
+  function inviteSaya() {
+  let url = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/
+  let invite = document.getElementById("inv");
+  let web = document.getElementById("web")
+  let submits = document.getElementById("submit");
+    
+    if(!url.test(invite.value)){
+      invite.classList.add("is-invalid")
+      submits.disabled = true;
+    }else{
+      invite.classList.remove("is-invalid")
+      invite.classList.add("is-valid")
+      submits.disabled = false;
+    }
+    
+    if(invite.value.length == 0){
+      invite.classList.remove("is-invalid") || invite.classList.remove("is-valid");
+      submits.disabled = false;
+    }
+    
+    if(!url.test(web.value)){
+      web.classList.add("is-invalid")
+      submits.disabled = true;
+    }else{
+      web.classList.remove("is-invalid")
+      web.classList.add("is-valid")
+      submits.disabled = false;
+    }
+    
+    if(web.value.length == 0){
+      web.classList.remove("is-invalid") || web.classList.remove("is-valid");
+      submits.disabled = false
+    }
+  }
+  
+function getSelectedOptions(sel, fn) {
+    var opts = [], opt;
+    for (var i=0, len=sel.options.length; i<len; i++) {
+        opt = sel.options[i];
+        if ( opt.selected ) {
+            opts.push(opt);
+            if (fn) {
+                fn(opt);
+            }
+        }
+    }
+    return opts;
+}
+function callback(opt) {
+    var display = document.getElementById('category');
+    display.value += opt.value + ', ';
+}
+document.getElementById('demoSel').onchange = function(e) {
+    var display = document.getElementById('category');
+    display.value = '';
+    getSelectedOptions(this, callback);
+    var str = display.value.slice(0, -2);
+    display.value = str;
+    
+    let bj = getSelectedOptions(this);
+    let demo = document.getElementById("demoSel")
+    let inval = document.getElementById("invalid")
+    let submit = document.getElementById("submit")
+    
+    if(bj.length > 3){
+      demo.classList.add("is-invalid")
+      inval.innerHTML = "Maximum can only choose 3 categories";
+      submit.disabled = true;
+    }
+  
+  if(bj.length < 4) {
+  demo.classList.remove("is-invalid")
+  submit.disable = false;
+  }
+  
+  if(bj.length == 0){
+    demo.classList.add("is-invalid")
+    inval.innerHTML = "This form must be filled in";
+    submit.disabled = true
+  }
+};
+function myFunction() {
+  let y = document.getElementById("lib").value;
+  document.getElementById("library").value = y;
+}
+  
+  //ID VALIDATION
+function punyaSaya() {
+  let submit = document.getElementById("submit")
+  let id = document.getElementById("id");
+  let invall = document.getElementById("inval-id")
+  
+  /*(id.value == "727893291265425469"){
+    id.classList.add("is-invalid")
+    id.classList.remove("is-valid")
+    invall.innerHTML = "This bot has been banned";
+  }*/
+  
+  if(id.value.length < 18) {
+    id.classList.add("is-invalid")
+    invall.innerHTML = "Make sure you put valid id"
+    submit.disabled = true;
+  }
+  
+  if(id.value.length == 0){
+    id.classList.remove("is-invalid") || id.classList.remove("is-valid")
+    submit.disabled = true;
+    invall.innerHTML = "This form must be fill in"
+  }
+  
+  if(id.value.length == 18){
+    id.classList.remove("is-invalid")
+    id.classList.add("is-valid")
+    submit.disabled = false;
+  }
+  
+  if(id.value.length > 18){
+    id.classList.add("is-invalid")
+    invall.innerHTML == "Make sure you put valid id";
+    submit.disabled = true;
+    
+  }
+  
+}
+</script>
+
+  <style>
+    
+    .label{
+      color:white;
+    }
+    
+    .decs{
+      background-color:white !important;
+    }
+    
+    .form-control{
+      background-color:#2E2E2E!important;
+      color:white;
+    }
+    
+    .form-control:hover{
+      background-color:#2E2E2E!important;
+      color:white;
+    }
+    
+    .aye{
+      background-color:#2e2e2e !important;
+      width:auto;
+      font-size:15px!important;
+    }
+    
+      .animasi{
+width: 30px;
+height: 20px;
+position: relative;
+margin: 0px;
+-webkit-transform: rotate(0deg);
+-moz-transform: rotate(0deg);
+-o-transform: rotate(0deg);
+transform: rotate(0deg);
+-webkit-transition: .5s ease-in-out;
+-moz-transition: .5s ease-in-out;
+-o-transition: .5s ease-in-out;
+transition: .5s ease-in-out;
+cursor: pointer;
+  }
+  
+  .animasi span {
+display: block;
+position: absolute;
+height: 3px;
+width: 100%;
+border-radius: 9px;
+opacity: 1;
+left: 0;
+-webkit-transform: rotate(0deg);
+-moz-transform: rotate(0deg);
+-o-transform: rotate(0deg);
+transform: rotate(0deg);
+-webkit-transition: .25s ease-in-out;
+-moz-transition: .25s ease-in-out;
+-o-transition: .25s ease-in-out;
+transition: .25s ease-in-out;
+  }
+  
+  .animasi span{
+    background: #f3e5f5;
+  }
+  
+  .animasi span:nth-child(1) {
+top: 0px;
+-webkit-transform-origin: left center;
+-moz-transform-origin: left center;
+-o-transform-origin: left center;
+transform-origin: left center;
+}
+
+.animasi span:nth-child(2) {
+top: 10px;
+-webkit-transform-origin: left center;
+-moz-transform-origin: left center;
+-o-transform-origin: left center;
+transform-origin: left center;
+}
+
+.animasi span:nth-child(3) {
+top: 20px;
+-webkit-transform-origin: left center;
+-moz-transform-origin: left center;
+-o-transform-origin: left center;
+transform-origin: left center;
+}
+
+.animasi.open span:nth-child(1) {
+-webkit-transform: rotate(45deg);
+-moz-transform: rotate(45deg);
+-o-transform: rotate(45deg);
+transform: rotate(45deg);
+top: 0px;
+left: 8px;
+}
+
+.animasi.open span:nth-child(2) {
+width: 0%;
+opacity: 0;
+}
+
+.animasi.open span:nth-child(3) {
+-webkit-transform: rotate(-45deg);
+-moz-transform: rotate(-45deg);
+-o-transform: rotate(-45deg);
+transform: rotate(-45deg);
+top: 21px;
+left: 8px;
+}
+  </style>
+  
+  <script>
+  const tx = document.getElementsByTagName('textarea');
+for (let i = 0; i < tx.length; i++) {
+  tx[i].setAttribute('style', 'height:' + (tx[i].scrollHeight) + 'px;overflow-y:hidden;');
+  tx[i].addEventListener("input", OnInput, false);
+}
+
+function OnInput() {
+  this.style.height = 'auto';
+  this.style.height = (this.scrollHeight) + 'px';
+}
+    
+    function discord(){
+       window.location.href = '/discord';
+    }
+  
+$(document).ready(function () {
+  $('.button3').on('click', function () {
+
+    $('.animasi').toggleClass('open');
+  });
+});
+    
+  $('select').selectpicker()
+  </script>

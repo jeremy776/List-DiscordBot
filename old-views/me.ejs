@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<head>
+
+  <!-- Bootstrap CSS -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+
+  <title><%= req.user.username %> | list-discordbot </title>
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+  <body>
+<!--  Navbar bagian dekstop  -->
+
+<nav class="navbar navbar-expand-lg navbar-light fixed-top" style='background:#7289DA;'>
+  <a class="navbar-brand" href="#"></a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+    <div class="navbar-nav">
+      <a class="nav-link active" href="/">Home <span class="sr-only">(current)</span></a>
+      <a class="nav-link" href="/add">Add</a>
+      <a class="nav-link" href='/discord'>Discord</a>
+      <a class='nav-link' href='/partners'>Our partners</a>
+      <a class="nav-link" href="<%= user ? "/me" : "/login" %>"><%= user ? user.username+"#"+user.discriminator : "Login" %></a>
+    </div>
+  </div>
+</nav>
+  <br><br>
+    
+  <!--  Mengambil Database  -->
+    <%
+let a = db.get('ldb')
+  
+  let idnya = client.guilds.cache.get("725966967797972992").members.cache.filter(m => m._roles.includes("752042076547579924")).map(x => x.id)
+  
+  let approvedss = a.filter(x => !idnya.includes(x.id))
+  let approveds = approvedss.filter(x => x.status === true)
+  let owners = approveds.sort(function(a, b){return 0.5 - Math.random()})
+  let owner = owners.filter(x => x.ownerId.includes(req.user.id))
+  
+  let pending = a.filter(x => x.status === false)
+  let owner1 = pending.filter(x => x.ownerId.includes(req.user.id))
+  
+  let promotes = a.filter(x => idnya.includes(x.id))
+  let promote = promotes.filter(x => x.ownerId.includes(req.user.id))
+    %>
+<!--  Akhir Dari Database  -->
+    <div class='jumbotron shadow p-3 mb-5 rounded' style='background:#FFFFFF'>
+      <div class="container">
+        <div class="text-center">
+          <% if(req.user.avatar === null) {%>
+          <img src="https://cdn.glitch.com/fafda016-78f3-4788-ba74-9281fad6bc3f%2F20200806_022132.png?v=1596655336133" class="gambar rounded-circle img-thumbnail" width='100' height='100'>
+          <% } %>
+          
+          <% if(user.avatar !== null) {%>
+          <img src="<%= user1.displayAvatarURL({dynamic: true}) %>" class="rounded-circle img-thumbnail" width='100' height='100'>
+          <% } %>
+          
+          <div class='userBadge'>
+            
+          <h5><%= user.username %>#<%= user.discriminator %></h5>
+
+          <%
+          let developer = client.guilds.cache.get("725966967797972992").members.cache.filter(m => m._roles.includes("726650688339443783")).map(x => x.id);
+          let booster = client.guilds.cache.get("725966967797972992").members.cache.filter(m => m._roles.includes("763716159413026836")).map(x => x.id);
+          let partner = client.guilds.cache.get("725966967797972992").members.cache.filter(m => m._roles.includes('740564351672647830')).map(x => x.id);
+          %>
+            
+          <% if(developer.includes(req.user.id)) {%>
+           <img src='https://cdn.glitch.com/fafda016-78f3-4788-ba74-9281fad6bc3f%2Fimages__2_-removebg-preview%20(1).png?v=1599579616044' class='lambang'>
+          <% } %>
+            
+          <% if(partner.includes(req.user.id)) {%>
+            <img src='https://cdn.glitch.com/fafda016-78f3-4788-ba74-9281fad6bc3f%2Fpartner-png.png?v=1601447353780' class='lambang'>
+          <% } %>
+            
+          <% if(booster.includes(req.params.id)) {%>
+            <img src="https://cdn.glitch.com/fafda016-78f3-4788-ba74-9281fad6bc3f%2Fboost.cb45e94.png?v=1602159921334" class="lambang">
+          <% } %>
+            
+          <% if("580640622235484161" == req.user.id) {%>
+            <img src="https://cdn.glitch.com/fafda016-78f3-4788-ba74-9281fad6bc3f%2Fimages__3_-removebg-preview.png?v=1599580752177" class='lambang' height="50px;">
+          <% } %>
+          </div>
+          
+          <hr>
+          <p class='bio'><%= db.get(`bio_${req.user.id}`) || 'Bio not set' %></p><a class='btn btn-primary' href='/bio/edit/<%= req.user.id %>'>edit bio</a>
+        </div>
+      </div>
+    </div>
+<!--  List bot owner  -->
+<div class='container'>
+   <div class="row">
+     
+     <%- promote.map(x => `
+    <div class="col-sm-6 md-5">
+      <center>
+      <div class='boxnya card shadow p-3 mb-5 rounded' style="width:auto; margin:10px;">
+        <div class="card-image">
+          <img src='${client.users.cache.get(x.id).displayAvatarURL()}' class='test circle responsive-img' width='100'>
+           <br><h3><span class="card-title" style='color:white;'><b><a>${client.users.cache.get(x.id).username}</a></b></span></h3>
+        
+        <hr>
+        <div class='asww'>
+        <span class="badge badge-primary"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-check-circle-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <path fill-rule="evenodd" d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+        </svg> Approved</span>
+        
+        <span class="badge badge-primary"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-up-circle-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <path fill-rule="evenodd" d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-7.5 3.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707V11.5z"/>
+        </svg> ${db.get(`vote.${x.id}`) || 0} votes</span>
+        
+        <span class="badge badge-primary"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-star-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.283.95l-3.523 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+        </svg> Promoted</span>
+        
+        <hr>
+        
+        </div>
+
+        </div>
+        <div class="card-content white-text">
+          <span class="card-title"></span>
+          <h6 style="color:white;">${x.sdecs}</h6>
+        </div>
+            
+        <div class='card-action'>
+          <a class="btn btn-primary" href="/bot/${x.id}" role="button">View</a>
+          <a class="btn btn-primary" href="${x.invite}" role="button">Invite</a>
+        </div>
+        
+        <br>
+      </div>
+    </div>
+ 
+     `).join(' ')%>
+   
+     <%- owner.map(x => `
+
+    <div class="col-sm-6 md-5">
+      <center>
+      <div class='boxnya card shadow p-3 mb-5 rounded' style="width:auto; margin:10px;">
+        <div class="card-image">
+          <img src='${client.users.cache.get(x.id).displayAvatarURL()}' class='test circle responsive-img' width='100'>
+           <br><h3><span class="card-title" style='color:white;'><b><a>${client.users.cache.get(x.id).username}</a></b></span></h3>
+        
+        <hr>
+        <div class='asww'>
+        <span class="badge badge-primary"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-check-circle-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <path fill-rule="evenodd" d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+        </svg> Approved</span>
+        
+        <span class="badge badge-primary"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-up-circle-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <path fill-rule="evenodd" d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-7.5 3.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707V11.5z"/>
+        </svg> ${db.get(`vote.${x.id}`) || 0} votes</span>
+        
+        <hr>
+        
+        </div>
+
+        </div>
+        <div class="card-content white-text">
+          <span class="card-title"></span>
+          <h6 style="color:white;">${x.sdecs}</h6>
+        </div>
+            
+        <div class='card-action'>
+          <a class="btn btn-primary" href="/bot/${x.id}" role="button">View</a>
+          <a class="btn btn-primary" href="${x.invite}" role="button">Invite</a>
+        </div>
+        
+        <br>
+      </div>
+    </div>
+ 
+     `).join(' ')%>
+  </div>
+  
+  <% if(pending.length > 0) { %>
+  <h1>Queue</h1>
+    
+    <div class="row">
+   
+     <%- owner1.map(x => `
+
+    <div class="col-sm-6 md-5">
+      <center>
+      <div class='boxnya card shadow p-3 mb-5 rounded' style="width:auto; margin:10px;">
+        <div class="card-image">
+          <img src='${client.users.cache.get(x.id).displayAvatarURL()}' class='test circle responsive-img' width='100'>
+           <br><h3><span class="card-title" style='color:white;'><b><a>${client.users.cache.get(x.id).username}</a></b></span></h3>
+        
+        <hr>
+        <div class='asww'>
+        <span class="badge badge-danger"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-check-circle-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <path fill-rule="evenodd" d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+        </svg> Queue</span>
+        
+        <span class="badge badge-primary"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-up-circle-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <path fill-rule="evenodd" d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-7.5 3.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707V11.5z"/>
+        </svg> ${db.get(`vote.${x.id}`) || 0} votes</span>
+        <hr>
+        
+        </div>
+
+        </div>
+        <div class="card-content white-text">
+          <span class="card-title"></span>
+          <h6 style="color:white;">${x.sdecs}</h6>
+        </div>
+            
+        <div class='card-action'>
+          <a class="btn btn-primary" href="/bot/${x.id}" role="button">View</a>
+          <a class="btn btn-primary" href="${x.invite}" role="button">Invite</a>
+        </div>
+        
+        <br>
+      </div>
+    </div>
+ 
+     `).join(' ')%>
+  </div>
+    
+  </div>
+  
+  <% } %>
+<!--   akhir list bot owner   -->
+  
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src='https://cdnjs.cloudflare.com/ajax/libs/showdown/1.9.1/showdown.min.js'></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+
+</body>
+</html>
+<style>
+  
+ body{
+    background:url("https://cdn.glitch.com/fafda016-78f3-4788-ba74-9281fad6bc3f%2Fimages.jpeg?v=1596425116755");
+  }
+
+   .test{
+    width:100px !important;
+    border-radius:150px !important;
+    padding:10px !important;
+  }
+  
+  /*  KHUSUS BADGE  */
+  .asww{
+  text-align:left!important;  
+  }
+  
+  
+    
+  .boxnya{
+    width:auto;
+    margin:10px;
+    background:transparent;
+    border:1px solid white;
+    box-shadow:1px 5px 10px black !important;
+    transition:1s;
+  }
+  
+  .boxnya:hover{
+    width:auto;
+    margin:10px;
+    background:transparent;
+    border:1px solid white;
+    box-shadow:2px 2px 5px white !important;
+    transition:1s;
+  }
+  
+  .badge{
+    width:auto !important;
+    height:20px;
+    margin:2px;
+  }
+  
+  .badge span{
+    font-size:15px;
+  }
+  
+  .asw{
+    margin:4px !important;
+  }
+  
+  /*  BADGE USER  */
+  .lambang{
+    width:auto !important;
+    height:30px;
+    background:white;
+  }
+  
+  .userBadge{
+    text-align:center;
+  }
+  
+  h1, h5, h3{
+    text-align:center;
+    color:black;
+    margin:30px;
+  }
+  
+  .a{
+    color:black;
+    font-family: 'Chilanka', cursive !important;
+  }
+  
+  .vote {
+    border:1px solid grey;
+    margin:5px;
+    tex-decoration:none;
+    border-radius:5px;
+    background:grey;
+    color:black;
+    text-align:center;
+    box-shadow:1px 1px 0px white;
+    transition:0.8s;
+  }
+  
+   .vote:hover {
+    border:1px solid white;
+    margin:5px;
+    color:white;
+    background:black;
+    text-decoration:none;
+    border-radius:2px;
+    text-align:center;
+    box-shadow:1px 1px 4px grey;
+  }
+  
+  .status{
+    color:white;
+    font-size:15px;
+  }
+  
+  .bio{
+    color:black;
+  }
+</style>

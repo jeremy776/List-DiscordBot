@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <script data-ad-client="ca-pub-5902686510993379" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- CUSTOM CSS & JS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/css/select2.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+    
+    <script src="/addBot/script.js"></script>
+    <link rel="stylesheet" href="/navbar.css">
+    <link rel="stylesheet" href="/addBot/style.css">
+    <!-- FONT URL 1 -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600&display=swap" rel="stylesheet">
+    <!-- Bootstrap CSS & ICON -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.0/font/bootstrap-icons.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+    <title>List DiscordBot | Add Bot</title>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark" style="background-color:#212424">
+      <div class="container">
+        <a class="navbar-brand" href="/">
+          <img src="https://cdn.discordapp.com/attachments/700935494711771147/841545130636476436/image_18.png" width="30" height="24">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link" aria-current="page" href="/">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/faq">Faq</a>
+            </li>
+            <% if(req.user) { %>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="dropdown-account" data-bs-toggle="dropdown" aria-expanded="false"><%- req.user.username %>#<%- req.user.discriminator %></a>
+              <ul class="dropdown-menu" aria-labelledby="dropdown-account">
+                <li><a class="dropdown-item" href="#">Add Bot</a></li>
+                <li><a class="dropdown-item" href="/user/<%- req.user.id %>">Profile</a></li>
+                <li><a class="dropdown-item" href="/logout">Logout</a></li>
+              </ul>
+            </li>
+            <% }else{ %>
+            <li class="nav-item">
+              <a class="nav-link" href="/login">Login</a>
+            </li>
+            <% } %>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    
+    <form method="post" action="/new">
+    <div class="container mt-3">
+      <% if(locals.message.length > 0) { %>
+      <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <%- locals.message %>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+      <% }else{ %>
+      
+      <% } %>
+      
+      <div class="input">
+        <label for="id" class="form-label">Bot Client ID <span>*</span></label>
+        <input placeholder="727893291265425469" type="text" id="id" name="id" required>
+        <p class="text-muted">You can get the Client Bot ID on <a href="https://discordapp.com/developers/applications/me">Discord Developer</a></p>
+      </div>
+      
+      <input type="hidden" name="_csrf" value="<%- csrfToken %>">
+      <div class="input">
+        <label for="prefix" class="form-label">Bot Prefix <span>*</span></label>
+        <input placeholder="!" type="text" id="prefix" name="prefix" required>
+        <p class="text-muted">The prefix the bot responds to</p>
+      </div>
+      
+      <div class="input">
+        <label for="shortDesc" class="form-label">Short Description <span>*</span></label>
+        <textarea name="shortDesc" maxlength="150" rows="4" id="shortDesc" placeholder="My bot has many functions, and now it is on 10 servers" required></textarea>
+        <p class="text-muted">A brief description of your bot. <b>Max 150 characters</b></p>
+      </div>
+      
+      <div class="input">
+        <label for="description" class="form-label">Your Bot description <span>*</span></label>
+        <p class="text-muted" style="font-size:10px;" id="char">Total characters now: </p>
+        <textarea name="description" oninput="checkVal()" rows="10" id="description" class="description"required></textarea>
+        <p class="text-muted">Detailed description of your bot. <b>Min 200 characters</b></p>
+      </div>
+      
+      <div class="input">
+        <label for="tags" class="form-label">Add some tags <span>*</span></label>
+        <select class="mul-select" name="tags" id="tags" multiple="true" required>
+          <% category.map(x => { %>
+          <option><%- x.name %></option>
+          <% }) %>
+        </select>
+        <!--input type="text" name="tags" id="tags"-->
+        <p class="text-muted">Add tags to your bot <b>(Max. 4 tags)</b></p>
+      </div>
+      
+      <div class="input mb-4">
+        <label for="library" class="form-label">Library Bot <span>*</span></label>
+        <select class="library" name="library" id="library" required>
+          <% lib.map(x => { %>
+          <option><%- x.name %></option>
+          <% }) %>
+          <option selected>Other...</option>
+        </select>
+      </div>
+      
+      <div class="input">
+        <label for="supportServer" class="form-label">Support Server</label>
+        <div class="input-group mb-3">
+          <span class="input-group-text" id="url">https://discord.gg/</span>
+          <input type="text" id="supportServer" name="supportServer" placeholder="k7wPzvN4RN" aria-describedby="url">
+        </div>
+      </div>
+      
+      <div class="input mb-3">
+        <label for="website" class="form-label">Website</label>
+        <input type="url" id="website" name="website" placeholder="https://ryougi-shiki.herokuapp.com">
+      </div>
+      
+      <div class="input">
+        <label for="invite" class="form-label">Your Bot invite</label>
+        <input type="text" id="invite" name="invite" placeholder="https://discord.com/oauth2/authorize?client_id=767298989887717406&scope=bot&permissions=0">
+        <p class="text-muted"><a href="https://discordapi.com/permissions.html">Invite Generator</a></p>
+      </div>
+      
+      <!--div class="input">
+        <label for="moreOwner" class="form-label">Another owner</label>
+        <input type="text" id="moreOwner" name="moreOnwer" placeholder="580640622235484161, 592295932125511684">
+        <p class="text-muted">Add other owners who can edit this bot. Max. 2 ID</p>
+      </div>
+      <hr-->
+      <h5 class="mt-2 mb-5 last"><span>*</span> = required</h5>
+      
+      <button type="submit" class="mb-3 btn-submit">Submit</button>
+    </div>
+    </form>
+      
+  </body>
+</html>
+<!-- Bootstrap Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script> 
+<script>
+  function checkVal() {
+    let a = document.getElementById("description");
+    document.getElementById("char").innerHTML = "Total characters now: "+a.value.length;
+  }
+</script>
