@@ -75,7 +75,7 @@
             <div class="row row-cols-1 row-cols-md-3 g-4">
               <% ownBot.map(x => { %>
               <div class="col">
-                <div style="width:100%;"class="card mt-5 bg-gray-900 rounded-lg shadow-2xl">
+                <div style="width:100%"class="card mt-5 bg-gray-900 rounded-lg shadow-2xl">
                   <img width="100" height="100" class="mt-2 ml-2 rounded-full" src="<%- client.users.cache.get(x.id).displayAvatarURL({format:"png", size:2048}) %>">
                   <div class="card-body">
                     
@@ -85,7 +85,9 @@
                     
                     <div class="downCard mt-4">
                       <h1 class="text-2xl font-sans font-semibold"><%- client.users.cache.get(x.id).username %></h1>
-                      <p class="mt-1 mb-3 text-1xl"><%- x.sdecs %></p>
+                      <div class="mt-1 mb-3 text-1xl" style="overflow-y:scroll !important;height:100px;">
+                        <p><%- x.sdecs %></p>
+                      </div>
                       
                       <% if(x.category.map !== undefined) { %>
                       <p class="mb-2 mt-1"><%- x.category.map(y => `

@@ -114,7 +114,7 @@ client.on("guildMemberRemove", async(member) => {
         
         let embed = new Discord.MessageEmbed()
         .setColor("RED")
-        .setDescription(`**\`${bot.tag}\` was deleted. \`${member.user.tag}\` left server`)
+        .setDescription(`**\`${bot.tag}\` was deleted. \`${member.user.tag}\` left server**`)
         modlog.send(embed)
         
         await client.db.delete(getBotOwner[i].id);
@@ -125,73 +125,6 @@ client.on("guildMemberRemove", async(member) => {
   
 });
 
-/*
-client.on("guildMemberRemove", async(member) => {
-  
-  if(member.guild.id == "725966967797972992"){
-    
-  let a = client.channels.cache.get("726650939594768445")
-  
-  let modlog = client.channels.cache.get("725967630174912574");
-    
-   if(!member.user.bot){
-     
-     let ab = db.get("ldb")
-     let an = ab.filter(x => x.ownerId == member.user.id);
-     if(an.length == 0) return a.send(`Goodbye **${member.user.tag}**`);
-     
-     let ayam = ab.filter(x => x.ownerId !== member.user.id);
-     db.set("ldb", ayam)
-     
-     for(let i = 0;i < an.length;i++){
-       let wow = client.users.cache.get(an[i].id)
-      
-       
-       client.guilds.cache.get("725966967797972992").members.cache.get(an[i].id)
-       .kick("Owner left from server")
-       .then(() => {
-         console.log("leave")
-       })
-       .catch(err => {
-         console.log(err)
-       });
-       
-       let embe4 = new Discord.MessageEmbed()
-       .setDescription(`**\`${wow.tag}\` was deleted from database automatically because \`${member.user.tag}\` left server**`)
-       .setColor("RED")
-       modlog.send(embe4)
-       
-       db.delete(`vote.${an[i].id}`)
-     }
-     
-     a.send(`Goodbye **${member.user.tag}**`)
-     
-    }
-    
-    if(member.user.bot){
-      let d = db.get("ldb")
-      let b = d.indexOf(d.filter(x => x.id == member.user.id)[0])
-      let bots = db.get(`ldb.${b}.id`);
-      let owners = db.get(`ldb.${b}.ownerId`)
-      
-      let owner = client.users.cache.get(owners)
-      let bot = client.users.cache.get(bots)
-      
-      if(bot == undefined) return a.send(`Goodbye my friend **${member.user.tag}**`);
-      
-      let c = d.filter(x => x.id !== member.user.id)
-      db.set("ldb", c)
-      
-      let embed = new Discord.MessageEmbed()
-      .setDescription(`**Bot \`${member.user.tag}\` by \`${owner.tag}\` was deleted from database automatically as it exited the server**`)
-      .setColor("RED")
-      modlog.send(embed)
-      
-      db.delete(`vote.${member.user.id}`)
-    }
-  }
-});
-*/
 client.on("ready", async() => {
   let bot = await client.db.all();
   client.user.setActivity(`${bot.length} bot's`, { type: "WATCHING" });
@@ -253,9 +186,9 @@ passport.use(
       scope: scopes,
       prompt: prompt
     },
-    function(accessToken, refreshToken, profile, done) {
+    function(accessToken, refreshToken, profile, cb) {
       process.nextTick(function() {
-        return done(null, profile);
+        return cb(null, profile);
       });
     }
   )
@@ -675,6 +608,28 @@ app.post("/new", url, Protection, async function(req, res) {
   }
 });
 
+app.post("/replyTo/:id/:botId", url, Protection, async function(req, res) {
+  let data = await client.db.get(req.params.botId);
+  if(!data) {
+    return res.redirect("/bot/"+req.params.botId);
+  }
+});
+
+app.post("/deleteComment/:id", url, Protection, async function(req, res) {
+  let data = await client.db.get(req.params.id);
+  if(!data) {
+    return res.redirect("/bot/"+req.params.id);
+  }
+  if(!data.comment.map(x => x.id).includes(req.user.id)) {
+    return res.redirect("/bot/"+req.params.id);
+  }else{
+    let arr = await client.db.get(`${req.params.id}.comment`)
+    let filtered = arr.filter(x => x.id !== req.user.id)
+    await client.db.set(`${req.params.id}.comment`, filtered)
+    return res.redirect("/bot/"+req.params.id);
+  }
+});
+
 app.post("/bot/:id", url, Protection, async function(req, res) {
   let data = await client.db.get(req.params.id);
   if(!data) {
@@ -693,6 +648,7 @@ app.post("/bot/:id", url, Protection, async function(req, res) {
     id: req.user.id,
     message: message,
     rate:rating,
+    reply:[],
     timestamp: Date.now()
   });
   //await client.db.add(`${req.params.id}.rating.${rating - 1}.count`, 1)
@@ -710,6 +666,14 @@ app.post("/edit/:id", url, Protection, async function(req, res) {
   if(req.user.id !== data.ownerId) {
     res.render("404.ejs", { client:client });
   }
+  
+  if(data.bgURL == undefined) {
+    let url = req.body.bgURL;
+    if(!url) url = null;
+    data.bgURL = url;
+    await client.db.set(`${req.params.id}`, data)
+  }
+  
   let prefix = req.body.prefix;
   if(!prefix) prefix = data.prefix;
   let description = req.body.description;
@@ -739,13 +703,13 @@ app.post("/edit/:id", url, Protection, async function(req, res) {
   await client.db.set(`${req.params.id}.category`, category);
   await client.db.set(`${req.params.id}.library`, library);
   
-  if(data.bgURL == undefined) {
+  /*if(data.bgURL == undefined) {
     let url = req.body.bgURL;
     if(!url) url = data.bgURL;
     data.bgURL = url;
     await client.db.set(`${req.params.id}`, data)
   }
-  
+  */
   let bot = await client.users.fetch(data.id);
   let owner = await client.users.fetch(data.ownerId);
   res.redirect(`/bot/${data.id}`);

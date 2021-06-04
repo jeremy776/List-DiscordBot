@@ -5,7 +5,7 @@ module.exports.run = async(client, msg, args) => {
   if(!msg.member.hasPermission("BAN_MEMBERS")) return msg.channel.send("You can't do that");
   
   let bot = msg.mentions.users.first() || await client.users.fetch(args[0]).catch(() => null);
-  if(!bot) return msg.channel.send("The bot mentions to be rejected");
+  if(!bot) return msg.channel.send("Mention the bot you want to reject");
   if(!bot.bot) return msg.channel.send("It's not a bot");
   
   let data = await client.db.get(bot.id);
