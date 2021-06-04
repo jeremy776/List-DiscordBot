@@ -2,14 +2,12 @@
 <html lang="en">
   <head>
     <meta name="og:title" content="<%- client.users.cache.get(data.id).username %>"/>
-<!--meta name="og:url" content="https://list-discordbot.cf/" /-->
     <link rel='icon' href='<%- client.users.cache.get(data.id).displayAvatarURL({format:"png", size:2048}) %>' />
     <meta name="theme-color" content="#4285f4">
     <meta name="og:image" content="<%- client.users.cache.get(data.id).displayAvatarURL({format:"png", size:2048}) %>" />
     <meta name="og:description" content="<%- data.sdecs %>"/>
 
     <script data-ad-client="ca-pub-5902686510993379" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-    <!-- Required meta tags -->
     <meta charset="utf-8">
     <script src="https://kit.fontawesome.com/27c7900ece.js" crossorigin="anonymous"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -117,7 +115,9 @@
           <a href="<%- data.website %>" class="button-invite-vote"><b><i class="fas fa-globe"></i> Website</b></a>
           <% } %>
         </div><% } %>
-      </div><% if(req.user) { %><% if(req.user.id === data.ownerId && data.comment.filter(x => x.id == req.user.id)) {%><% }else{ %>
+      </div><% if(req.user) { %><% if(req.user.id === data.ownerId && data.comment.filter(x => x.id == req.user.id)) {%>
+      
+      <% }else{ %>
       
       <hr>
       <div class="row" style="margin:7px;">
@@ -146,14 +146,22 @@
           </div>
         </div>
       </div><% } } %><% if(!data.comment.length) { %><h1 class="text-center">No comments yet</h1><% }else{ %>
-      <h1 class="text-center">Comments</h1><% data.comment.map(x => { %><hr>
+      <h1 class="text-center">Comments</h1><% data.comment.map((x,i) => { %><hr>
       <div class="row" style="margin:7px;">
-        <div class="col-2">
+        <div class="col-2 col-md-1">
           <img src="<%- userComment.data[x.id].Avatar %>" class="image-comment" alt="Avatar">
         </div>
-        <div class="col-10">
+        <div class="col-10 col-md-11">
           <h4 class="name text-start"><%- userComment.data[x.id].Username %> <span id="time"></span></h4>
           <p><%- x.message %></p>
+          <% if(req.user) { %>
+          <% if(x.id == req.user.id) { %>
+            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#del">Delete</button>
+          <% } %>
+          
+          <% if(data.ownerId == req.user.id) { %>
+          <h6 id="button-<%- x.id %>" class="text-muted">reply</h6>
+          <% } } %>
           <div class="star-widget-view" id="c<%-x.rate%>">
             <input type="radio" id="radio5" disabled>
             <label for="radio5" class="bi bi-star-fill"></label>
@@ -166,9 +174,50 @@
             <input type="radio" id="radio1" disabled>
             <label for="radio1" class="bi bi-star-fill"></label>
           </div>
+          
+          <% if(req.user) {
+          if(data.ownerId == req.user.id) { %>
+          <div style="display:none" id="replyBox-<%-x.id%>">
+            <form method="POST" action="/replyTo/<%-x.id%>/<%-req.params.id%>">
+              <textarea style="width:95%;color:white" class="box-view" rows="3" required></textarea>
+              <input type="hidden" value="<%- csrfToken %>" name="_csrf">
+              <button class="button-invite-vote">Reply</button>
+            </form>
+          </div>
+          <script>
+            let button<%-i%> = document.getElementById(`button-<%- x.id %>`);
+            let replyBox<%-i%> = document.getElementById(`replyBox-<%- x.id %>`);
+            
+            button<%-i%>.addEventListener("click", () => {
+              replyBox<%-i%>.style.display = "block";
+            });
+          </script>
+          <% } } %>
+          
         </div>
       </div><% }) } %>
     </div>
+    
+    <div class="modal fade" id="del" tabindex="-1" aria-labelledby="delComment" aria-hidden="true">
+      <div class="modal-dialog-centered modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="delComment">Delete your comment</h5>
+          </div>
+          <div class="modal-body">
+            Do you agree that we will delete your comments?
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Disagree</button>
+            <form method="POST" action="/deleteComment/<%- req.params.id %>">
+              <button type="submit" class="btn btn-danger">Agree</button>
+              <input type="hidden" value="<%- csrfToken %>" name="_csrf">
+            </form>
+         </div>
+      </div>
+    </div>
+  </div>
+    
   </body>
 </html>
 <!-- Bootstrap Bundle with Popper -->
@@ -178,6 +227,12 @@
   <style>
     .star-widget p {
       display:none;
+    }
+    .modal {
+      color:black;
+    }
+    .modal-header, .modal-footer {
+      border:none;
     }
     .star-widget-view label {
       font-size:15px;
