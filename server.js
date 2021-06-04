@@ -33,7 +33,6 @@ client.on("message", async message => {
   if (sender.bot) return;
 
   try {
-    //   let commands = system.commands.get(cmd) || system.commands.get(system.aliases.get(cmd));
     let commandFile = require(`./commands/${cmd}.js`);
 
     const co = fs
@@ -50,9 +49,7 @@ client.on("message", async message => {
   } catch (e) {
     console.log(e.message);
   } finally {
-   /* console.log(
-      `${message.author.username} Telah Menggunakan Command: ${cmd} Di Server ${message.guild.name}`
-    );*/
+   
   }
 });
 
@@ -143,7 +140,6 @@ const ms = require("parse-ms");
 const markdown = require("markdown").markdown;
 const request = require("request");
 const flash = require("connect-flash");
-const faqData = require("./faq.json");
 
 const cookieParser = require("cookie-parser");
 const csrf = require("csurf");
