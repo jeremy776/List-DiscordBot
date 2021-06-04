@@ -33,7 +33,6 @@ client.on("message", async message => {
   if (sender.bot) return;
 
   try {
-    //   let commands = system.commands.get(cmd) || system.commands.get(system.aliases.get(cmd));
     let commandFile = require(`./commands/${cmd}.js`);
 
     const co = fs
@@ -50,9 +49,7 @@ client.on("message", async message => {
   } catch (e) {
     console.log(e.message);
   } finally {
-   /* console.log(
-      `${message.author.username} Telah Menggunakan Command: ${cmd} Di Server ${message.guild.name}`
-    );*/
+   
   }
 });
 
@@ -143,7 +140,6 @@ const ms = require("parse-ms");
 const markdown = require("markdown").markdown;
 const request = require("request");
 const flash = require("connect-flash");
-const faqData = require("./faq.json");
 
 const cookieParser = require("cookie-parser");
 const csrf = require("csurf");
@@ -234,17 +230,13 @@ app.get(
     headers:{
       Authorization:`Bot ${process.env.TOKEN}`}
   }).catch(err => console.log(err))
-
-    /**/
-  } // auth success*
+    
+  }
 );
 app.get("/logout", function(req, res) {
   req.logout();
   res.redirect("/");
 });
-
-let bod = db.get("ldb");
-//let body = bod.filter(x => x.status === true)
 
 app.get("/", async (req, res) => {
   console.log("test");
@@ -309,35 +301,6 @@ app.get("/edit/:id", checkAuth, Protection, async function(req, res) {
   });
 });
 
-app.get("/bio/edit/:id", checkAuth, function(req, res) {
-  res.render("bio.ejs", {
-    user: req.user,
-    client: client,
-    db: db,
-    req: req,
-    res: res
-  });
-});
-
-app.get("/admin/update", checkAuth, Protection, function(req, res) {
-  
-  if(!["580640622235484161"].includes(req.user.id)) return res.render("404.ejs", {client:client});
-  res.render("updateNews.ejs", {
-    client:client,
-    req:req,
-    res:res,
-    csrfToken:req.csrfToken()
-  });
-});
-app.get("/news", function(req, res) {
-  res.render("news.ejs", {
-    user: req.user,
-    client: client,
-    req: req,
-    res: res
-  });
-});
-
 app.get("/vote/:id", checkAuth, Protection, async function(req, res) {
   
   let status = await client.db.get(req.params.id);
@@ -373,15 +336,11 @@ const mds = require("marked");
 const hljs = require("highlight.js");
 
 var md = require("markdown-it")({
-  html: true, // Enable HTML tags in source
-  xhtmlOut: true, // Use '/' to close single tags (<br />).
-  // This is only for full CommonMark compatibility.
-  breaks: true, // Convert '\n' in paragraphs into <br>
-  langPrefix: "language-", // CSS language prefix for fenced blocks. Can be
-  // useful for external highlighters.
-  linkify: true, // Autoconvert URL-like text to links
-
-  // Enable some language-neutral replacement + quotes beautification
+  html: true,
+  xhtmlOut: true,
+  breaks: true,
+  langPrefix: "language-",
+  linkify: true,
   typographer: true,
   quotes: "“”‘’",
   highlight: function(str, lang) {
@@ -466,16 +425,6 @@ app.get("/user/:id", async function(req, res) {
     user: (await client.users.fetch(req.params.id)) || null,
     client: client,
     allData: await client.db.all()
-  });
-});
-
-app.get("/error/:id", async function(req, res) {
-  res.render("errvote.ejs", {
-    res: res,
-    req: req,
-    user: req.user,
-    client: client,
-    db: db
   });
 });
 
@@ -569,13 +518,6 @@ app.post("/new", url, Protection, async function(req, res) {
 
     res.redirect("/");
     client.channels.cache.get("820581016330567690").send(embed);
-    /*client.channels.cache
-    .get("727914219097423943")
-    .send(
-      `**${req.user.username}#${req.user.discriminator}** Submit **${bot.tag}**\nInvite link: ${invites}`
-    );*/
-
-    /*let y = req.body.category;*/
     let website = req.body.website;
     if(!website) website = null;
 
@@ -702,19 +644,11 @@ app.post("/edit/:id", url, Protection, async function(req, res) {
   await client.db.set(`${req.params.id}.supportServer`, supportServer);
   await client.db.set(`${req.params.id}.category`, category);
   await client.db.set(`${req.params.id}.library`, library);
-  
-  /*if(data.bgURL == undefined) {
-    let url = req.body.bgURL;
-    if(!url) url = data.bgURL;
-    data.bgURL = url;
-    await client.db.set(`${req.params.id}`, data)
-  }
-  */
+
   let bot = await client.users.fetch(data.id);
   let owner = await client.users.fetch(data.ownerId);
   res.redirect(`/bot/${data.id}`);
   return client.channels.cache.get(client.logs).send(`${owner} edited ${bot}.\nhttps://list-discordb.glitch.me/bot/${data.id}`);
-  //res.redirect("/bot/" + req.params.id);
 });
 
 // API WEBSITE
@@ -764,28 +698,6 @@ app.get("/api/key/Jeremy/comment/:id", async function(req, res) {
 
 app.use(express.json());
 
-/*p.post("/api/:id", url, function(req, res) {
-
-  let servr = req.body.serverCount;
-  let token = req.body.Authorization;
-  
-  let ids = db.get('token');
-  let idds = ids.indexOf(ids.filter(x => x.token === token)[0])
-  let id = db.get(`token.${idds}.id`)
-  
-  db.set(`server.${id}`, servr)
-});*/
-
-/*app.get("/404", (req, res) => {
-  res.render("404.ejs", {
-    user: req.user,
-    client: client,
-    db: db,
-    req: req,
-    res: res
-  });
-});*/
-
 app.get("/arc-sw.js", function(req, res) {
   res.setHeader("Content-Type", "application/javascript");
   res.status(200).send(`!function(e){var t={};function r(n){if(t[n])return t[n].exports;var o=t[n]={i:n,l:!1,exports:{}};return e[n].call(o.exports,o,o.exports,r),o.l=!0,o.exports}r.m=e,r.c=t,r.d=function(e,t,n){r.o(e,t)||Object.defineProperty(e,t,{enumerable:!0,get:n})},r.r=function(e){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(e,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(e,"__esModule",{value:!0})},r.t=function(e,t){if(1&t&&(e=r(e)),8&t)return e;if(4&t&&"object"==typeof e&&e&&e.__esModule)return e;var n=Object.create(null);if(r.r(n),Object.defineProperty(n,"default",{enumerable:!0,value:e}),2&t&&"string"!=typeof e)for(var o in e)r.d(n,o,function(t){return e[t]}.bind(null,o));return n},r.n=function(e){var t=e&&e.__esModule?function(){return e.default}:function(){return e};return r.d(t,"a",t),t},r.o=function(e,t){return Object.prototype.hasOwnProperty.call(e,t)},r.p="",r(r.s=100)}({100:function(e,t,r){"use strict";r.r(t);var n=r(3);if("undefined"!=typeof ServiceWorkerGlobalScope){var o="https://arc.io"+n.k;importScripts(o)}else if("undefined"!=typeof SharedWorkerGlobalScope){var c="https://arc.io"+n.i;importScripts(c)}else if("undefined"!=typeof DedicatedWorkerGlobalScope){var i="https://arc.io"+n.b;importScripts(i)}},3:function(e,t,r){"use strict";r.d(t,"a",function(){return n}),r.d(t,"f",function(){return c}),r.d(t,"j",function(){return i}),r.d(t,"i",function(){return a}),r.d(t,"b",function(){return d}),r.d(t,"k",function(){return f}),r.d(t,"c",function(){return p}),r.d(t,"d",function(){return s}),r.d(t,"e",function(){return l}),r.d(t,"g",function(){return m}),r.d(t,"h",function(){return v});var n={images:["bmp","jpeg","jpg","ttf","pict","svg","webp","eps","svgz","gif","png","ico","tif","tiff","bpg"],video:["mp4","3gp","webm","mkv","flv","f4v","f4p","f4bogv","drc","avi","mov","qt","wmv","amv","mpg","mp2","mpeg","mpe","m2v","m4v","3g2","gifv","mpv"],audio:["mid","midi","aac","aiff","flac","m4a","m4p","mp3","ogg","oga","mogg","opus","ra","rm","wav","webm","f4a","pat"],documents:["pdf","ps","doc","docx","ppt","pptx","xls","otf","xlsx"],other:["swf"]},o="arc:",c={COMLINK_INIT:"".concat(o,"comlink:init"),NODE_ID:"".concat(o,":nodeId"),CDN_CONFIG:"".concat(o,"cdn:config"),P2P_CLIENT_READY:"".concat(o,"cdn:ready"),STORED_FIDS:"".concat(o,"cdn:storedFids"),SW_HEALTH_CHECK:"".concat(o,"cdn:healthCheck"),WIDGET_CONFIG:"".concat(o,"widget:config"),WIDGET_INIT:"".concat(o,"widget:init"),WIDGET_UI_LOAD:"".concat(o,"widget:load"),BROKER_LOAD:"".concat(o,"broker:load"),RENDER_FILE:"".concat(o,"inlay:renderFile"),FILE_RENDERED:"".concat(o,"inlay:fileRendered")},i="serviceWorker",a="/".concat("shared-worker",".js"),d="/".concat("dedicated-worker",".js"),f="/".concat("arc-sw-core",".js"),u="".concat("arc-sw",".js"),p=("/".concat(u),"/".concat("arc-sw"),"arc-db"),s="key-val-store",l=2**17,m="".concat("https://overmind.arc.io","/api/propertySession"),v="".concat("https://warden.arc.io","/mailbox/propertySession")}});`)
@@ -808,5 +720,4 @@ app.listen(process.env.PORT, function(err) {
   console.log("Listening at web");
 });
 
-/* AKHIR WEBSITE */
 client.login(process.env.TOKEN);
