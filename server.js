@@ -239,7 +239,22 @@ app.get("/logout", function(req, res) {
 });
 
 app.get("/", async (req, res) => {
-  console.log("test");
+  console.log("Request");
+  
+  if(req.user) {
+    if(imBeta(req.user.id)) {
+      res.render("beta/newHome.ejs", {
+        user:req.user,
+        client:client,
+        category:category,
+        allData:await client.db.all(),
+        moment:moment,
+        res:res,
+        req:req
+      });
+    }
+  }
+  
   res.render("home.ejs", {
     user: req.user,
     client: client,
@@ -365,7 +380,6 @@ app.get("/bot/:id", Protection, async function(req, res) {
   if(!req.params.id) {
     res.render("404.ejs", { client:client })
   }
-  
   let data = await client.db.get(req.params.id);
   if(!data) {
     res.render("404.ejs", {client:client})
@@ -382,6 +396,21 @@ app.get("/bot/:id", Protection, async function(req, res) {
     smartypants: false
   });
   
+  if(req.user) {
+    if(imBeta(req.user.id)) {
+      res.render("beta/newBot.ejs", {
+        res:res,
+        req:req,
+        user:req.user || null,
+        client:client,
+        csrfToken: req.csrfToken(),
+        data:data,
+        userComment:await axios.get(`https://list-discordb.glitch.me/api/key/Jeremy/comment/${req.params.id}`),
+        description:mds(data.description),
+        markdown:markdown
+    });
+    }
+  }
   
   res.render("bot.ejs", {
     res: res,
@@ -395,6 +424,7 @@ app.get("/bot/:id", Protection, async function(req, res) {
     description: md.render(data.description),
     markdown: markdown
   });
+  
 });
 
 app.get("/me", checkAuth, async function(req, res) {
@@ -713,6 +743,10 @@ function checkAuth(req, res, next) {
   if (req.isAuthenticated()) return next();
   req.session.backURL = req.url;
   res.redirect("/login");
+}
+
+function imBeta(id) {
+  return client.guilds.cache.get("819924361183756349").roles.cache.get("850274430193631272").members.map(x => x.id).includes(id);
 }
 
 app.listen(process.env.PORT, function(err) {

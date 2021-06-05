@@ -115,7 +115,8 @@
           <a href="<%- data.website %>" class="button-invite-vote"><b><i class="fas fa-globe"></i> Website</b></a>
           <% } %>
         </div><% } %>
-      </div><% if(req.user) { %><% if(req.user.id === data.ownerId && data.comment.filter(x => x.id == req.user.id)) {%>
+      </div><% if(req.user) { %>
+      <% if(req.user.id === data.ownerId && data.comment.filter(x => x.id == req.user.id)) {%>
       
       <% }else{ %>
       
