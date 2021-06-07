@@ -70,9 +70,10 @@
             </div></center>
             
             <div class="category-list">
-              <a class="button-category" href="/tag/moderation"><i class="bi bi-hammer"></i> Moderation</a>
+              <a class="button-category" id="explore" href="#explore-tags"> Explore Tags</a>
+              <!--a class="button-category" href="/tag/moderation"><i class="bi bi-hammer"></i> Moderation</a>
               <a class="button-category" href="/tag/nsfw"><i class="bi bi-heart-fill"></i> Nsfw</a>
-              <a class="button-category" href="/tag/music"><i class="bi bi-music-note-beamed"></i> Music</a>
+              <a class="button-category" href="/tag/music"><i class="bi bi-music-note-beamed"></i> Music</a>-->
             </div>
           </div>
         </div>
@@ -118,8 +119,50 @@
           <% }) %>
         
       </div>
-      
+      <br />
+      <h1 class="text-center"><i style="color:red;" class="fas fa-dice"></i> Random</h1>
+      <p class="text-muted text-center">Some random list of bots</p>
+      <div class="row row-cols-1 row-cols-md-4">
+        <% allData.map(x => x.data).filter(x => x.status == true).map(x => x).sort(function() { return 0.5 - Math.random()}).map(x => { %>
+        <div class="col">
+          <div class="customCard">
+            <img class="avatarCard" src="<%- client.users.cache.get(x.id).displayAvatarURL({format:"png", size:2048}) %>" alt="avatar">
+            <div class="text-right"><span class="badge badge-primary"><i class="fas fa-chevron-up"></i> <%- x.vote %> votes</span></div>
+            <div class="customCardContent">
+              <h4><%- client.users.cache.get(x.id).username %></h4>
+              <div class="box-short">
+                <p><%- x.sdecs %></p>
+              </div>
+              <% if(x.category.map == undefined) { %>
+              <p class="category"><%- x.category %></p>
+              <% }else{ %>
+              <p class="category"><%- x.category.map(y => y).slice(0,2).join(" ") %> <%- x.category.map(y => y).length - x.category.map(y => y).slice(0,2).length ? `<span class="text-muted">+${x.category.map(y => y).length -2}</span>` : ""%></p>
+              <% } %>
+              <hr style="width:90%;" />
+              <div class="row text-center mb-3">
+                <div class="col-6">
+                  <a class="view" href="/bot/<%-x.id%>">view</a>
+                </div>
+                <div class="col-6">
+                  <a class="invite" href="<%- x.invite %>">invite</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <% }) %>
+      </div>
     </div>
+      
+    <div class="container" data-spy="scroll" data-target="#explore" data-offset="100">
+      <h2 class="mt-5"><i style="color:#7289DA" class="fas fa-tags"></i> Tags</h2>
+      <div class="groupCategory" id="explore-tags">
+        <% category.map(x => { %>
+        <a href="/tag/<%- x.name.toLowerCase() %>" class="categoryExplore"><i class="<%- x.icon %>"></i> <%- x.name %></a>
+        <% }) %>
+      </div>
+    </div>
+    
     <p><code></code><code></code><code></code><code></code><code></code><code></code><code></code><code></code><code></code><code></code><code></code><code></code><code></code><code></code> <code></code><code></code><code></code><code></code><code></code><code></code><code></code><code></code><code></code></p>
     <style>
       :root {
@@ -137,6 +180,21 @@
       .heading {
         background-color:var(--darkButNotBlack);
         box-shadow:1px 4px 5px rgba(0,0,0,0.4);
+      }
+      .groupCategory {
+        display:flex;
+        flex-direction:row;
+        border-radius:4px;
+        box-shadow:4px 3px 3px rgba(0,0,0,0.2);
+        flex-wrap:wrap;
+        padding:5px;
+        background-color:var(--darkButNotBlack);
+      }
+      .groupCategory a {
+        margin:4px;
+        padding:7px;
+        border-radius:8px;
+        background-color:var(--darkBackground);
       }
       #search-name {
         width:85%;
@@ -163,13 +221,13 @@
         text-decoration:none;
       }
       .category-list {
-        margin-top:20px;
-        margin-bottom:20px;
+        margin-bottom:30px !important;
+        margin-top:20px !important;
       }
       .category-list .button-category {
-        padding:7px;
+        padding:10px;
         border-radius:5px;
-        background-color:var(--darkBackground);
+        background-color:#7289DA;
       }
       .heroImg {
         width:100%;
@@ -198,6 +256,16 @@
         height:100px;
         color:rgba(225, 225, 225, 0.8);
         overflow-x:scroll;
+      }
+      .box-short::-webkit-scrollbar {
+        width:7px;
+      }
+      .box-short::-webkit-scrollbar-track {
+        
+      }
+      .box-short::-webkit-scrollbar-thumb {
+        background-color:grey;
+        border-radius:7px;
       }
       .category {
         font-size:13px;

@@ -61,6 +61,9 @@
               <% if(client.guilds.cache.get("819924361183756349").roles.cache.get("832623307702009876").members.map(x => x.user.id).includes(req.params.id)) { %>
               <i class="fas fa-code"><span>Developer</span></i>
               <% } %>
+              <% if(client.guilds.cache.get("819924361183756349").roles.cache.get("850274430193631272").members.map(x => x.user.id).includes(req.params.id)) { %>
+              <i class="fas fa-map-marker"><span>Beta User</span></i>
+              <% } %>
               <% if(client.guilds.cache.get("819924361183756349").roles.cache.get("835870662605668372").members.map(x => x.user.id).includes(req.params.id)) { %>
               <i class="fas fa-handshake"><span>Partner</span></i>
               <% } %>
