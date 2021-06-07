@@ -54,12 +54,21 @@
       <div class="textname">
         <h2 class="botname"><%- client.users.cache.get(req.params.id).username %></h2>
         <p class="sdecs"><%- data.sdecs %></p><br />
+        <% if(data.comment.length > 0) { %>
+        <h3 class="totalRating"><% let a = ( 5 * data.comment.filter(x => x.rate == 5).length + 4 * data.comment.filter(x => x.rate == 4).length + 3 * data.comment.filter(x => x.rate == 3).length + 2 * data.comment.filter(x => x.rate == 2).length + 1 * data.comment.filter(x => x.rate == 1).length ) / ( data.comment.filter(x => x.rate == 5).length + data.comment.filter(x => x.rate == 4).length + data.comment.filter(x => x.rate == 3).length + data.comment.filter(x => x.rate == 2).length + data.comment.filter(x => x.rate == 1).length ) %> <%- a.toFixed(1) %> / 5 <i class="bi bi-star-fill" style="color:yellow;"></i></h3><br />
+        <% } %>
+        
       </div>
     </div>
     <div class="container-fluid">
       <br /><div class="alert alert-success" role="alert">
         You are in beta mode, there may still be some bugs in this mode, if you find them (bug), please contact us on Discord <a href="/discord" class="alert-link">Click here</a>.
+      </div><br />
+      <% if(locals.message.length > 0) { %>
+      <div class="alert alert-danger" role="alert">
+        <%- locals.message %>
       </div>
+      <% } %>
       <div class="row">
         <div class="col-md-4">
           <div class="invite-vote">
@@ -75,12 +84,17 @@
           <a class="avatarDev" href="/user/<%- data.ownerId %>"><span class="button-avatar"><img src="<%- client.users.cache.get(data.ownerId).displayAvatarURL({dynamic:true, format:"png", size:2048}) %>"></span><span class="button-text"><%- client.users.cache.get(data.ownerId).tag %></span></a>
           <h5 class="cat"><i class="fas fa-info"></i> Overview</h5>
           <div class="prefix"><span class="prefix-icon"><i class="fas fa-thumbtack"></i></span><span class="prefix-text">Prefix</span><kbd class="float-right"><%- data.prefix %></kbd></div>
+          <div class="library"><span class="library-icon"><i class="fas fa-bookmark"></i></span><span class="library-text">Library</span><kbd class="float-right"><%- data.library %></kbd></div>
           <div class="votes"><span class="vote-icon"><i class="fas fa-chevron-up"></i></span><span class="vote-text">Vote</span><kbd class="float-right"><%- data.vote %></kbd></div>
+          
+          <% if(data.supportServer || data.website) { %>
+          <h5 class="cat"><i class="fas fa-link"></i> Links</h5>
           <% if(data.supportServer) { %>
           <a class="discord" href="https://discord.gg/<%- data.supportServer %>"><span class="discord-icon"><i class="fab fa-discord"></i></span><span class="discord-text">Support Server</span></a>
           <% } %>
           <% if(data.website) { %>
           <a class="website" href="<%- data.website %>"><span class="website-icon"><i class="fas fa-globe-asia"></i></span><span class="website-text">Website</span></a>
+          <% } %>
           <% } %>
         </div>
         <div class="col-md-8">
@@ -92,15 +106,16 @@
       
       <div class="komentar">
         <% if(req.user) { %>
-        <% if(req.user.id === data.ownerId || data.comment.filter(x => x.id == req.user.id)) { %>
+        <% if(req.user.id === data.ownerId && data.comment.filter(x => x.id === req.user.id)) { %>
         
         <% } else { %>
+        
         <div class="row">
           <div class="col-md-4">
             <h4 class="text-center">Write a comment about this bot and rate this bot</h4>
           </div>
           <div class="col-md-8">
-            <form method="post">
+            <form method="post" action="/bot/<%- req.params.id %>">
               <input type="hidden" value="<%- csrfToken %>" name="_csrf">
               <textarea class="writeComment" id="message" name="message" rows="5" required></textarea>
               <button class="submitComment" type="submit">Send</button>
@@ -323,6 +338,29 @@
         font-weight:600;
         text-transform:uppercase;
       }
+      .library {
+        background-color:var(--darkButNotBlack);
+        display:block;
+        margin-top:15px;
+        color:white !important;
+        text-decoration:none !important;
+        width:100%;
+        padding:7px;
+        padding-left:0;
+        border-radius:5px;
+      }
+      .library-icon {
+        background-color:rgba(0,0,0,0.2);
+        padding:10px;
+        border-top-left-radius:5px;
+        border-bottom-left-radius:5px;
+      }
+      .library-text {
+        padding:10px;
+        font-size:15px;
+        font-weight:600;
+        text-transform:uppercase;
+      }
       .discord {
         background-color:var(--darkButNotBlack);
         display:flex;
@@ -334,12 +372,12 @@
       }
       .discord .discord-icon {
         background-color:rgba(0,0,0,0.2);
-        padding:7px;
+        padding:9px;
         border-top-left-radius:5px;
         border-bottom-left-radius:5px;
       }
       .discord .discord-text {
-        padding:7px;
+        padding:10px;
         font-size:15px;
         font-weight:600;
         text-transform:uppercase;
@@ -355,12 +393,12 @@
       }
       .website .website-icon {
         background-color:rgba(0,0,0,0.2);
-        padding:7px;
+        padding:8px;
         border-top-left-radius:5px;
         border-bottom-left-radius:5px;
       }
       .website .website-text {
-        padding:7px;
+        padding:10px;
         font-size:15px;
         font-weight:600;
         text-transform:uppercase;
@@ -391,13 +429,13 @@
         text-decoration:none !important;
         margin-top:15px;
         width:100%;
-        padding:5px;
+        padding:6px;
         padding-left:0;
         border-radius:5px;
       }
       .votes .vote-icon {
         background-color:rgba(0,0,0,0.3);
-        padding:8px;
+        padding:9px;
         border-top-left-radius:5px;
         border-bottom-left-radius:5px;
       }
@@ -413,13 +451,13 @@
         color:white !important;
         text-decoration:none !important;
         width:100%;
-        padding:5px;
+        padding:7px;
         padding-left:0;
         border-radius:5px;
       }
       .prefix .prefix-icon {
         background-color:rgba(0,0,0,0.3);
-        padding:8px;
+        padding:10px;
         border-top-left-radius:5px;
         border-bottom-left-radius:5px;
       }

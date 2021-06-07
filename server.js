@@ -337,6 +337,19 @@ app.get("/discord", function(req, res) {
 });
 
 app.get("/add", url, Protection, checkAuth, function(req, res) {
+  
+    if(imBeta(req.user.id)) {
+      return res.render("beta/newAdd.ejs", {
+        user:req.user,
+        client:client,
+        lib:lib,
+        csrfToken:req.csrfToken(),
+        category:category,
+        req:req
+      });
+    }
+  
+  
   res.render("add.ejs", {
     user: req.user,
     client: client,
@@ -626,6 +639,7 @@ app.post("/bot/:id", url, Protection, async function(req, res) {
   //await client.db.add(`${req.params.id}.rating.${rating - 1}.count`, 1)
   return res.redirect("/bot/"+req.params.id);
   }else{
+    req.flash("message", "You only have 1 chance to comment on this bot");
     return res.redirect("/bot/"+req.params.id);
   }
 });
