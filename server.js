@@ -240,7 +240,7 @@ app.get("/logout", function(req, res) {
 
 app.get("/", async (req, res) => {
   console.log("Request");
-  
+  req.session.backURL = req.url
   if(req.user) {
     if(imBeta(req.user.id)) {
       res.render("beta/newHome.ejs", {
@@ -272,7 +272,7 @@ app.get("/tag/:category", async function(req, res) {
   ) {
     return res.redirect("/");
   }
-
+  req.session.backURL = req.url
   res.render("category.ejs", {
     user: req.user,
     client: client,
@@ -287,7 +287,7 @@ app.get("/search/:name", async function(req, res) {
   if (!req.params.name) {
     return res.redirect("/");
   }
-
+  req.session.backURL = req.url;
   res.render("cari.ejs", {
     user: req.user,
     client: client,
@@ -303,7 +303,7 @@ app.get("/edit/:id", checkAuth, Protection, async function(req, res) {
   if(!database) return res.render("404.ejs", {client:client});
   
   if(req.user.id !== database.ownerId) return res.render("404.ejs", {client:client});
-  
+  req.session.backURL = req.url;
   res.render("edit.ejs", {
     user: req.user,
     category:category,
@@ -322,6 +322,7 @@ app.get("/vote/:id", checkAuth, Protection, async function(req, res) {
   if(status.status === false) {
     return res.render("404.ejs", {client:client});
   }
+  req.session.backURL = req.url;
   res.render("vote.ejs", {
     user: req.user,
     client: client,
@@ -338,6 +339,7 @@ app.get("/discord", function(req, res) {
 
 app.get("/add", url, Protection, checkAuth, function(req, res) {
   
+  req.session.backURL = req.url;
     if(imBeta(req.user.id)) {
       return res.render("beta/newAdd.ejs", {
         user:req.user,
@@ -397,7 +399,7 @@ app.get("/bot/:id", Protection, async function(req, res) {
   if(!data) {
     res.render("404.ejs", {client:client})
   }
-
+  req.session.backURL = req.url;
   mds.setOptions({
     renderer: new mds.Renderer(),
     gfm: true,
@@ -441,6 +443,7 @@ app.get("/bot/:id", Protection, async function(req, res) {
 });
 
 app.get("/me", checkAuth, async function(req, res) {
+  req.session.backURL = req.url;
   res.render("me.ejs", {
     res: res,
     req: req,
@@ -461,6 +464,8 @@ app.get("/user/:id", async function(req, res) {
   if(userNya.bot) {
     return res.render("404.ejs", {client:client});
   }
+  
+  req.session.backURL = req.url;
   
   res.render("user.ejs", {
     res: res,
