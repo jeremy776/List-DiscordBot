@@ -255,13 +255,6 @@ body.light .view-invite:hover {
 .card1 {
   border-left: 5px solid #00E1FF !important;
 }
-/*.card1 .view-invite {
-  border-radius:7px;
-  box-shadow:  5px 5px 10px #005a66,
-             -5px -5px 10px #00ffff;
-}
-*/
-
 .card2 {
   border-left: 5px solid #7B7B7B !important;
 }

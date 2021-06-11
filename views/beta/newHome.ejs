@@ -70,10 +70,10 @@
             </div></center>
             
             <div class="category-list">
-              <a class="button-category" id="explore" href="#explore-tags"> Explore Tags</a>
-              <!--a class="button-category" href="/tag/moderation"><i class="bi bi-hammer"></i> Moderation</a>
+              <a class="button-category" href="/tag/moderation"><i class="bi bi-hammer"></i> Moderation</a>
               <a class="button-category" href="/tag/nsfw"><i class="bi bi-heart-fill"></i> Nsfw</a>
-              <a class="button-category" href="/tag/music"><i class="bi bi-music-note-beamed"></i> Music</a>-->
+              <a class="button-category" href="/tag/music"><i class="bi bi-music-note-beamed"></i> Music</a>
+              <a class='button-category' id="explore" href="#explore-tags"> All tags</a>
             </div>
           </div>
         </div>
@@ -89,9 +89,55 @@
       <p class="text-muted text-center">This is the list of bots with the most votes</p>
       <div class="row row-cols-1 row-cols-md-3">
       
-          <% allData.map(x => x.data).filter(x => x.status == true).map(x => x).sort(function(a,b) { return parseFloat(b.vote) - parseFloat(a.vote)}).slice(0,3).map(x => { %>
-          <div class="col">
-            <div class="customCard">
+          <% allData.map(x => x.data).filter(x => x.status == true).map(x => x).sort(function(a,b) { return parseFloat(b.vote) - parseFloat(a.vote)}).slice(0,3).map((x, i) => { %>
+            <div class="col">
+          <div class="card<%-i%> card
+                      <% if(x.bgURL) { %>
+                      custom
+                      <% } %>" style="background:url(<%- x.bgURL %>);">
+            <img src="<%- client.users.cache.get(x.id).displayAvatarURL({format:"png", size:2048}) %>" class="card-img-custom" alt="<%- client.users.cache.get(x.id).username %>">
+            <div class="card-body">
+              
+              <div class="lensa" style="overflow:hidden;">
+                <% if(i == 0) { %>
+                <img class="lensa<%-i%>" src="https://cdn.discordapp.com/attachments/700935494711771147/833227779314679878/1618727365355.png" alt="TOP 1 VOTE">
+                <% } %>
+                <% if(i == 1) { %>
+                <img class="lensa<%-i%>" src="https://cdn.discordapp.com/attachments/700935494711771147/833228987555381248/1618727660163.png" alt="TOP 2 VOTE">
+                <% } %>
+                <% if(i == 2) { %>
+                <img class="lensa<%-i%>" src="https://cdn.discordapp.com/attachments/700935494711771147/833229807361851422/1618727852608.png" alt="TOP 3 VOTE">
+                <% } %>
+              </div>
+              
+              <div class="btn-card mb-3">
+                <a class="btn-vote" href="/vote/<%- x.id %>"><i class="fas fa-chevron-up"></i> <%- x.vote.toLocaleString() || "N/A" %></a>
+              </div>
+              <h5 class="card-title"><%- client.users.cache.get(x.id).username %></h5>
+              <p class="card-text shortDesc"><%- x.sdecs %></p>
+              <% if(x.category.map !== undefined) { %>
+              <p><%- x.category.map(y => `
+              <span class="badge badge-primary">${y}</span>
+              `).join("") %></p>
+              <% }else{ %>
+              <p><span class="badge badge-primary"><%- x.category %></span></p>
+              <% } %>
+              <hr>
+              <div class="row">
+                <div class="col">
+                  <a href="/bot/<%- x.id %>" class="view-invite">View</a>
+                </div>
+                <div class="col">
+                  <a href="<%- x.invite %>" class="view-invite">Invite</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!--div class="col">
+            <div class="customCard useBackground" style="background:url(<%-x.bgURL%>)">
+              
               <img class="avatarCard" src="<%- client.users.cache.get(x.id).displayAvatarURL({format:'png', size:2048}) %>">
               <div class="text-right"><span class="badge badge-primary"><i class="fas fa-chevron-up"></i> <%- x.vote %> votes</span></div>
               <div class="customCardContent">
@@ -115,7 +161,7 @@
                 </div>
               </div>
             </div>
-          </div>
+          </div>-->
           <% }) %>
         
       </div>
@@ -125,9 +171,9 @@
       <div class="row row-cols-1 row-cols-md-4">
         <% allData.map(x => x.data).filter(x => x.status == true).map(x => x).sort(function() { return 0.5 - Math.random()}).map(x => { %>
         <div class="col">
-          <div class="customCard">
-            <img class="avatarCard" src="<%- client.users.cache.get(x.id).displayAvatarURL({format:"png", size:2048}) %>" alt="avatar">
-            <div class="text-right"><span class="badge badge-primary"><i class="fas fa-chevron-up"></i> <%- x.vote %> votes</span></div>
+          <div class="customCard useBackground" style="background:url(<%- x.bgURL %>)">
+            <img class="avatarCard" src="<%- client.users.cache.get(x.id).displayAvatarURL({format:"png", size:2048}) %>" alt="avatar"><br />
+            <div class="text-right"><span class="badge badge-primary"><i class="fas fa-chevron-up"></i> <%- x.vote %> votes</span></div><br />
             <div class="customCardContent">
               <h4><%- client.users.cache.get(x.id).username %></h4>
               <div class="box-short">
@@ -165,6 +211,7 @@
     
     <p><code></code><code></code><code></code><code></code><code></code><code></code><code></code><code></code><code></code><code></code><code></code><code></code><code></code><code></code> <code></code><code></code><code></code><code></code><code></code><code></code><code></code><code></code><code></code></p>
     <style>
+      @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@600&display=swap');
       :root {
         --darkBackground:#292B2F;
         --navbarColor:#5865F2;
@@ -173,8 +220,15 @@
       nav {
         background-color:var(--navbarColor);
       }
+      h1, h2, h3, h4, h5, h6 {
+        font-weight:800;
+      }
+      p {
+        font-weight:500;
+      }
       body{
         color:white;
+        font-family:"Nunito";
         background-color:var(--darkBackground);
       }
       .heading {
@@ -197,11 +251,12 @@
         background-color:var(--darkBackground);
       }
       #search-name {
-        width:85%;
+        width:87%;
         padding:10px;
         background-color:var(--darkBackground);
         outline:none;
-        border:none;
+        border:1px solid rgba(225, 225, 225, 1);
+        border-right:none;
         border-top-right-radius:1px !important;
         border-bottom-right-radius:1px !important;
         border-radius:7px;
@@ -211,6 +266,8 @@
         outline:none;
         color:white;
         border:none;
+        display:block;
+        border:1px solid rgba(225, 225, 225, 1);
         border-top-left-radius:1px !important;
         border-bottom-left-radius:1px !important;
         border-radius:7px;
@@ -221,19 +278,130 @@
         text-decoration:none;
       }
       .category-list {
+        display:flex;
+        flex-direction:row;
+        flex-wrap:wrap;
+        
         margin-bottom:30px !important;
         margin-top:20px !important;
       }
       .category-list .button-category {
-        padding:10px;
+        padding:7px;
+        margin:5px;
+        font-size:15px;
+        box-shadow:4px 5px 10px rgba(0,0,0,0.3);
         border-radius:5px;
-        background-color:#7289DA;
+        font-weight:500;
+        border:1px solid rgba(225, 225, 225, 0.5);
+        color:rgba(225, 225, 225, 0.9);
+        background-color:var(--darkBackground);
       }
       .heroImg {
         width:100%;
       }
       
       /* CARD */
+      .card {
+        margin: auto;
+        border-radius:10px;
+        width: 100%;
+        transition: transform 0.6s ease, box-shadow 0.9s ease, border-left 0.6s ease;
+        background-color: #2c2f33 !important;
+      }
+      .badge {
+        background-color:var(--nvbarColor);
+      }
+      .custom {
+        box-shadow:2px 2px 4px rgba(0,0,0,0.4);
+        background-repeat: no-repeat !important;
+        border-radius: 5px !important;
+        background-size: 100% 90% !important;
+        background-color:var(--darkButNotBlack); 
+      }
+      .custom > .card-body {
+        background-color:#2c2f33;
+      }
+      .custom:after {
+        content: "";
+        display: block;
+        position: absolute;
+        width: 100%;
+
+        height: 147px;
+        top: 0px;
+        background: linear-gradient(to bottom, rgba(0, 0, 0, 0.2), #2c2f33);
+      }
+      .custom:before {
+        content:"";
+        position:absolute;
+        bottom:0;
+        width:100%;
+        z-index:-10;
+        height:100%;
+        display:block;
+        background-color:#2c2f33;
+      }
+
+      /* TOP VOTE */
+      .card0 {
+        border-left: 5px solid #ffc800 !important;
+      }     
+      .card1 {
+        border-left: 5px solid #00E1FF !important;
+      }
+      .card2 {
+        border-left: 5px solid #7B7B7B !important;
+      }
+      .card0,
+      .card1,
+      .card2 {
+        box-shadow: 4px 3px 10px rgba(0, 0, 0, 0.4);
+      }
+      .card0 .btn-vote,
+      .card1 .btn-vote,
+      .card2 .btn-vote {
+        border: none !important;
+      }
+
+      .lensa0,
+      .lensa1,
+      .lensa2 {
+        z-index:1;
+        pointer-events: none;
+        max-width: 100% !important;
+        display: block;
+        width: 15%;
+        position: absolute;
+        top: -7%;
+        right: -3%;
+        filter: drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.5));
+      }
+      .row .col .card .card-img-custom {
+        border-radius: 20% !important;
+        padding: 15px;
+        z-index: 100;
+        height: 146px !important;
+        width: 150px;
+        /*transform:translateX(50%);*/
+      }
+      .shortDesc {
+        overflow-y: scroll;
+        height: 70px;
+        color: rgba(225, 225, 225, 0.5);
+      }
+
+      .shortDesc::-webkit-scrollbar {
+        width: 7px;
+      }
+
+      .shortDesc::-webkit-scrollbar-track {
+
+      }
+
+      .shortDesc::-webkit-scrollbar-thumb {
+        background-color:grey;
+        border-radius:7px;
+      }
       .customCard {
         padding:15px;
         border-radius:6px;
@@ -241,11 +409,38 @@
         background-color:var(--darkButNotBlack);
         box-shadow:2px 2px 4px rgba(0,0,0,0.4);
       }
+      .useBackground {
+        background-repeat:no-repeat !important;
+        background-size:100% 40% !important;
+        background-color:var(--darkButNotBlack) !important;
+      }
+      /*.useBackground:after {
+        content:'';
+        display:block !important;
+        position:absolute;
+        width:100%;
+        
+        height:174px !important;
+        top:0;
+        background:linear-gradient(to bottom, rgba(0,0,0,0.5), var(--darkButNotBlack));
+      }
+      .useBackground:before {
+        content:'';
+        displat:block;
+        position:absolute;
+        width:100%;
+        height:100%;
+        bottom:0;
+        background-color:var(--darkButNotBlack);
+        z-index:999;
+      }*/
       .avatarCard {
         width:130px;
         margin-bottom:15px;
+        margin-top:16px;
+        border:2px solid rgba(225, 225, 225, 0.7);
         box-shadow:1px 2px 10px rgba(0,0,0,0.2);
-        border-radius:6px;
+        border-radius:50%;
       }
       .box-short {
         text-align:left;
