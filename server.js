@@ -82,7 +82,7 @@ client.on("guildMemberRemove", async(member) => {
       let modlog = client.channels.cache.get("821336010105290762");
       
       let embed = new Discord.MessageEmbed()
-      .setDescription(`**\`${bot.tag}\` was deleted`)
+      .setDescription(`**\`${bot.tag}\`** was deleted`)
       .setColor("RED");
       modlog.send(embed);
       
@@ -111,7 +111,7 @@ client.on("guildMemberRemove", async(member) => {
         
         let embed = new Discord.MessageEmbed()
         .setColor("RED")
-        .setDescription(`**\`${bot.tag}\` was deleted. \`${member.user.tag}\` left server**`)
+        .setDescription(`**\`${bot.tag}\`** was deleted. \`${member.user.tag}\` left server**`)
         modlog.send(embed)
         
         await client.db.delete(getBotOwner[i].id);

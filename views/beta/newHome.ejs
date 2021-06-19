@@ -1,515 +1,175 @@
-<!doctype html>
+<!doctype>
 <html>
   <head>
-    <title><%- client.user.username %> | Beta</title>
+    <title>Home | <%- client.user.username %></title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" href="<%- client.user.displayAvatarURL({format:"png"})%>" />
-    <meta name="og:description" content="">
-    <meta name="og:image" content="<%- client.user.displayAvatarURL({format:"png"})%>" />
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.3/css/all.css" integrity="sha384-SZXxX4whJ79/gErwcOYf+zWLeJdY/qpuqC4cAa9rOGUstPomtqpuNWT9wdPEn2fk" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
   </head>
   <body>
     
-    <nav class="navbar navbar-expand-sm navbar-dark">
-      <div class="container">
-        <a class="navbar-brand" href="/">List DiscordBot</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-          <ul class="navbar-nav ml-auto">
-            <li class="nav-item active">
-              <a class="nav-link" href="#"><i class="fas fa-home"></i> Home <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/discord"><i class="fab fa-discord"></i> Discord</a>
-            </li>
-            <% if(req.user) { %>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-user-circle"></i> <%- req.user.username %>#<%- req.user.discriminator %>
-              </a>
-                <div class="dropdown-menu" style="background-color:#7289DA;" aria-labelledby="navbarDropdown">
-                  <a class="dropdown-item text-white" href="/user/<%-req.user.id%>"><i class="fas fa-id-card"></i> Profile</a>
-                  <a class="dropdown-item text-white" href="/add"><i class="fas fa-plus-circle"></i> Add Bot</a>
-                  <div class="dropdown-divider"></div>
-                  <a class="dropdown-item text-white" href="/logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
-                </div>
-              </li>
-            <% }else{ %>
-            <li class="nav-item">
-              <a class="nav-link" href="/login">Login</a>
-            </li>
-            <% } %>
-          </ul>
-        </div>
-      </div>
-      
-    </nav>
-    
-    
-    <div class='heading'>
-      <div class="container-fluid">
-        <div class='row'><br>
-          <div class='col-md-7'>
-            <img src="https://cdn.discordapp.com/attachments/700935494711771147/841562725892358184/Tanpa_judul_5.png" class="heroImg">
+
+  <nav class="bg-gray-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+        <div class="flex items-center">
+          <div class="flex-shrink-0">
+            <img width="40" height="40" class="rounded-full" src="https://media.discordapp.net/attachments/819925637678366720/855439668844560394/image_18.png" alt="Workflow">
           </div>
-          <div class='col-md-5 mt-4'>
-            <h5 class='text-heading text-center'>
-              Find bots for your server now!
-            </h5>
-            <p class="text-center small-text-heading">Improve your Discord experience with some Discord bots</p>
-            <center><div class="input-group">
-              <input id="search-name" placeholder="Search Bot" type="text" aria-describe="search-button" required>
-              <button class="searchButton" type="button" id="search-button"><i class="fas fa-search"></i></button>
-              <script>document.getElementById("search-button").addEventListener("click", function() {if(document.getElementById("search-name").value.length < 1) {return;}else{
-                window.location.href = "/search/"+ document.getElementById("search-name").value.toLowerCase();
-              }});</script>
-            </div></center>
-            
-            <div class="category-list">
-              <a class="button-category" href="/tag/moderation"><i class="bi bi-hammer"></i> Moderation</a>
-              <a class="button-category" href="/tag/nsfw"><i class="bi bi-heart-fill"></i> Nsfw</a>
-              <a class="button-category" href="/tag/music"><i class="bi bi-music-note-beamed"></i> Music</a>
-              <a class='button-category' id="explore" href="#explore-tags"> All tags</a>
+          <div class="hidden md:block">
+            <div class="ml-10 flex items-baseline space-x-4">
+              <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
+              <a href="#" class="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium">Home</a>
+              <%if(!req.user) { %>
+              <a href="/login" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Login</a>
+              <%}else{%>
+              <a href="/add" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Add new bot</a>
+              <a href="/user/<%- req.user.id %>" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medioum"><%- req.user.username %>#<%- req.user.discriminator %></a>
+              <%}%>
             </div>
           </div>
+        </div>
+          
+        <div class="-mr-2 flex md:hidden">
+          <!-- Mobile menu button -->
+          <button onclick="toggleNavbar()" type="button" class="bg-gray-800 inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-700 focus:ring-blue-400" aria-controls="mobile-menu" aria-expanded="false">
+            <span class="sr-only">Open main menu</span>
+            <!--
+              Heroicon name: outline/menu
+
+              Menu open: "hidden", Menu closed: "block"
+            -->
+            <svg id="open" class="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+            <!--
+              Heroicon name: outline/x
+
+              Menu open: "block", Menu closed: "hidden"
+            -->
+            <svg id="x" class="hidden h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="hidden" id="mobile-menu">
+      <div class="px-2 font-bold pt-2 pb-3 space-y-1 sm:px-3">
+        <a href="#" class="bg-gray-900 text-white block px-3 py-2 rounded-md text-base font-medium">Home</a>
+        
+        <%if(!req.user) {%>
+        <a href="/login" class="font-medium text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base">Login</a>
+        <%}else{%>
+        <a href="/add" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Add new bot</a>
+        <a href="/user/<%-req.user.id%>" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"><%- req.user.username %>#<%- req.user.discriminator %></a>
+        <%}%>
+      </div>
+    </div>
+  </nav>
+    
+    <div class="head p-8 pt-11">
+      <div class="flex justify-center sm:flex-row flex-col">
+        <div class="sm:p-5">
+          <img alt="bau bawang" width="400" height="400" src="https://media.discordapp.net/attachments/850945648056598568/855459938418950194/Tanpa_judul_5.png">
+        </div>
+        <div class="sm:p-5">
+          <h1 class="text-xl text-center sm:mt-2 mt-11">Find bot's for your server now!</h1>
+          <input type="text" placeholder="Search bot" autocomplete="off" class="focus:outline-none p-2 font-semibold text-gray-600 w-full placeholder-gray-500 placeholder-opacity-75 mt-4 rounded-lg">
+          <button class="p-2 mt-4 focus:outline-none focus:ring-2 focus:ring-gray-400 font-medium bg-indigo-600 rounded-lg">Search</button>
         </div>
       </div>
     </div>
     
-    <div class="container-fluid"><br />
-      <div class="alert alert-primary" role="alert">
-        Nice to meet you <b><%- req.user.username %></b>, now you are in beta mode.
-      </div>
-      
-      <h1 class="text-center"><i style="color:#7289DA;" class="fas fa-chevron-up"></i> Top vote</h1>
-      <p class="text-muted text-center">This is the list of bots with the most votes</p>
-      <div class="row row-cols-1 row-cols-md-3">
-      
-          <% allData.map(x => x.data).filter(x => x.status == true).map(x => x).sort(function(a,b) { return parseFloat(b.vote) - parseFloat(a.vote)}).slice(0,3).map((x, i) => { %>
-            <div class="col">
-          <div class="card<%-i%> card
-                      <% if(x.bgURL) { %>
-                      custom
-                      <% } %>" style="background:url(<%- x.bgURL %>);">
-            <img src="<%- client.users.cache.get(x.id).displayAvatarURL({format:"png", size:2048}) %>" class="card-img-custom" alt="<%- client.users.cache.get(x.id).username %>">
-            <div class="card-body">
-              
-              <div class="lensa" style="overflow:hidden;">
-                <% if(i == 0) { %>
-                <img class="lensa<%-i%>" src="https://cdn.discordapp.com/attachments/700935494711771147/833227779314679878/1618727365355.png" alt="TOP 1 VOTE">
-                <% } %>
-                <% if(i == 1) { %>
-                <img class="lensa<%-i%>" src="https://cdn.discordapp.com/attachments/700935494711771147/833228987555381248/1618727660163.png" alt="TOP 2 VOTE">
-                <% } %>
-                <% if(i == 2) { %>
-                <img class="lensa<%-i%>" src="https://cdn.discordapp.com/attachments/700935494711771147/833229807361851422/1618727852608.png" alt="TOP 3 VOTE">
-                <% } %>
-              </div>
-              
-              <div class="btn-card mb-3">
-                <a class="btn-vote" href="/vote/<%- x.id %>"><i class="fas fa-chevron-up"></i> <%- x.vote.toLocaleString() || "N/A" %></a>
-              </div>
-              <h5 class="card-title"><%- client.users.cache.get(x.id).username %></h5>
-              <p class="card-text shortDesc"><%- x.sdecs %></p>
-              <% if(x.category.map !== undefined) { %>
-              <p><%- x.category.map(y => `
-              <span class="badge badge-primary">${y}</span>
-              `).join("") %></p>
-              <% }else{ %>
-              <p><span class="badge badge-primary"><%- x.category %></span></p>
-              <% } %>
-              <hr>
-              <div class="row">
-                <div class="col">
-                  <a href="/bot/<%- x.id %>" class="view-invite">View</a>
-                </div>
-                <div class="col">
-                  <a href="<%- x.invite %>" class="view-invite">Invite</a>
-                </div>
-              </div>
+    <div class="bodyTopList">
+      <h1 class="text-4xl mt-6 text-center font-semibold">Top vote</h1>
+      <div class="flex p-7 mt-2 flex-col sm:flex-row">
+        <% allData.map(x => x.data).filter(x => x.status == true).map(x => x).sort(function(a,b){ return parseFloat(b.vote) - parseFloat(a.vote) }).slice(0,4).map((x,i) => { %>
+        <div class="sm:m-2 mt-4 p-4 rounded-lg card">
+          <img width="120" height="120" class="rounded-full mx-auto shadow-md" src="<%- client.users.cache.get(x.id).displayAvatarURL({format:"png", size:2048}) %>">
+          <br>
+          <center><a href="/vote/<%- x.id %>" style="font-size:13px;background-color:#5865F2;" class="font-bold text-center rounded-sm px-1"><i class="fas fa-chevron-up"></i> <%- x.vote %> votes</a></center>
+          <h1 style="font-weight:600;" class="text-2xl sm:text-xl text-center mt-2"><%- client.users.cache.get(x.id).username %></h1>
+          <br><div style="height:80px;overflow-y:scroll;" class="mb-4 shortDecs py-3">
+            <p style="font-size:15px;color:rgba(225, 225, 225, 0.6);" class="text-center"><%- x.sdecs %></p>
+          </div>
+          <hr><br>
+          <div class="flex flex-row">
+            <div class="w-full m-2">
+              <a class="block p-1 rounded-md text-center bg-purple-500" href="/bot/<%- x.id %>">View</a>
+            </div>
+            <div class="w-full m-2">
+              <a class="block p-1 rounded-md text-center bg-purple-500" href="<%- x.invite %>">Invite</a>
             </div>
           </div>
         </div>
-        
-        <!--div class="col">
-            <div class="customCard useBackground" style="background:url(<%-x.bgURL%>)">
-              
-              <img class="avatarCard" src="<%- client.users.cache.get(x.id).displayAvatarURL({format:'png', size:2048}) %>">
-              <div class="text-right"><span class="badge badge-primary"><i class="fas fa-chevron-up"></i> <%- x.vote %> votes</span></div>
-              <div class="customCardContent">
-                <h4><%- client.users.cache.get(x.id).username %></h4>
-                <div class="box-short">
-                  <p><%- x.sdecs %></p>
-                </div>
-                <% if(x.category.map == undefined) { %>
-                <p class="category"><%- x.category %></p>
-                <% }else{ %>
-                <p class="category"><%- x.category.map(y => y).slice(0,2).join(" ")%> <%- x.category.map(y =>y).length - x.category.map(y => y).slice(0,2).length ? `<span class="text-muted">+${x.category.map(y => y).length - 2}</span>` : "" %></p>
-                <% } %>
-                <hr style="width:90%;"/>
-                <div class="row text-center mb-3">
-                  <div class="col-6">
-                    <a class="view" href="/bot/<%-x.id%>">View</a>
-                  </div>
-                  <div class="col-6">
-                    <a class="invite" href="<%-x.invite%>">Invite</a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>-->
-          <% }) %>
-        
+        <% }) %>
       </div>
-      <br />
-      <h1 class="text-center"><i style="color:red;" class="fas fa-dice"></i> Random</h1>
-      <p class="text-muted text-center">Some random list of bots</p>
-      <div class="row row-cols-1 row-cols-md-4">
-        <% allData.map(x => x.data).filter(x => x.status == true).map(x => x).sort(function() { return 0.5 - Math.random()}).map(x => { %>
-        <div class="col">
-          <div class="customCard useBackground" style="background:url(<%- x.bgURL %>)">
-            <img class="avatarCard" src="<%- client.users.cache.get(x.id).displayAvatarURL({format:"png", size:2048}) %>" alt="avatar"><br />
-            <div class="text-right"><span class="badge badge-primary"><i class="fas fa-chevron-up"></i> <%- x.vote %> votes</span></div><br />
-            <div class="customCardContent">
-              <h4><%- client.users.cache.get(x.id).username %></h4>
-              <div class="box-short">
-                <p><%- x.sdecs %></p>
-              </div>
-              <% if(x.category.map == undefined) { %>
-              <p class="category"><%- x.category %></p>
-              <% }else{ %>
-              <p class="category"><%- x.category.map(y => y).slice(0,2).join(" ") %> <%- x.category.map(y => y).length - x.category.map(y => y).slice(0,2).length ? `<span class="text-muted">+${x.category.map(y => y).length -2}</span>` : ""%></p>
-              <% } %>
-              <hr style="width:90%;" />
-              <div class="row text-center mb-3">
-                <div class="col-6">
-                  <a class="view" href="/bot/<%-x.id%>">view</a>
-                </div>
-                <div class="col-6">
-                  <a class="invite" href="<%- x.invite %>">invite</a>
-                </div>
-              </div>
+      <a href="#" class="block bg-gray-700 py-4 text-sm sm:text-xl font-semibold text-center">See all bots from the top vote order</a>
+    </div>
+
+    <div class="bodyRandomList"><br>
+      <h1 class="text-3xl mt-6 text-center font-semibold">Random bot's</h1>
+      <div class="flex sm:grid sm:grid-cols-4 sm:gap-4 p-7 mt-2 flex-col sm:flex-row">
+        <% allData.map(x => x.data).filter(x => x.status == true).map(x => x).map(x => { %>
+        <div class="sm:m-2 mt-4 p-4 rounded-lg card">
+          <img width="120" height="120" class="rounded-full mx-auto shadow-md" src="<%- client.users.cache.get(x.id).displayAvatarURL({format:"png", size:2048}) %>" alt="tayo">
+          <br>
+          <center><a href="/vote/<%- x.id %>" style="font-size:13px;background-color:#5865F2;" class="font-bold text-center rounded-sm px-1"><i class="fas fa-chevron-up"></i> <%- x.vote %> votes</a></center>
+          <h1 style="font-weight:600;" class="text-2xl sm:text-xl text-center mt-2"><%- client.users.cache.get(x.id).username %></h1>
+          <br><div style="height:80px;overflow-y:scroll;" class="mb-4 shortDesc py-3">
+            <p style="font-size:15pxbl;color:rgba(225, 225, 225, 0.5);" class="text-center"><%- x.sdecs %></p>
+          </div>
+          <hr><br>
+          <div class="flex flex-row">
+            <div class="w-full m-2">
+              <a class="block p-1 rounded-md text-center bg-purple-500" href="/bot/<%- x.id %>">View</a>
+            </div>
+            <div class="w-full m-2">
+              <a class="block p-1 rounded-md text-center bg-purple-500" href="<%- x.invite %>">Invite</a>
             </div>
           </div>
         </div>
         <% }) %>
       </div>
     </div>
-      
-    <div class="container" data-spy="scroll" data-target="#explore" data-offset="100">
-      <h2 class="mt-5"><i style="color:#7289DA" class="fas fa-tags"></i> Tags</h2>
-      <div class="groupCategory" id="explore-tags">
-        <% category.map(x => { %>
-        <a href="/tag/<%- x.name.toLowerCase() %>" class="categoryExplore"><i class="<%- x.icon %>"></i> <%- x.name %></a>
-        <% }) %>
-      </div>
-    </div>
     
-    <p><code></code><code></code><code></code><code></code><code></code><code></code><code></code><code></code><code></code><code></code><code></code><code></code><code></code><code></code> <code></code><code></code><code></code><code></code><code></code><code></code><code></code><code></code><code></code></p>
     <style>
-      @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@600&display=swap');
       :root {
-        --darkBackground:#292B2F;
-        --navbarColor:#5865F2;
-        --darkButNotBlack:#2f3136;
+        --front:#382039;
+        --background:#200f21;
       }
-      nav {
-        background-color:var(--navbarColor);
-      }
-      h1, h2, h3, h4, h5, h6 {
-        font-weight:800;
-      }
-      p {
-        font-weight:500;
-      }
-      body{
+      body {
         color:white;
-        font-family:"Nunito";
-        background-color:var(--darkBackground);
+        font-family:"Open Sans";
+        background-color:var(--background);
       }
-      .heading {
-        background-color:var(--darkButNotBlack);
-        box-shadow:1px 4px 5px rgba(0,0,0,0.4);
+      .head {
+        background-color:var(--front);
+        box-shadow:1px 5px 14px rgba(0,0,0,0.3);
       }
-      .groupCategory {
-        display:flex;
-        flex-direction:row;
-        border-radius:4px;
-        box-shadow:4px 3px 3px rgba(0,0,0,0.2);
-        flex-wrap:wrap;
-        padding:5px;
-        background-color:var(--darkButNotBlack);
-      }
-      .groupCategory a {
-        margin:4px;
-        padding:7px;
-        border-radius:8px;
-        background-color:var(--darkBackground);
-      }
-      #search-name {
-        width:87%;
-        padding:10px;
-        background-color:var(--darkBackground);
-        outline:none;
-        border:1px solid rgba(225, 225, 225, 1);
-        border-right:none;
-        border-top-right-radius:1px !important;
-        border-bottom-right-radius:1px !important;
-        border-radius:7px;
-        color:white;
-      }
-      .searchButton {
-        outline:none;
-        color:white;
-        border:none;
-        display:block;
-        border:1px solid rgba(225, 225, 225, 1);
-        border-top-left-radius:1px !important;
-        border-bottom-left-radius:1px !important;
-        border-radius:7px;
-        background-color:var(--darkBackground);
-      }
-      a, a:hover {
-        color:white;
-        text-decoration:none;
-      }
-      .category-list {
-        display:flex;
-        flex-direction:row;
-        flex-wrap:wrap;
-        
-        margin-bottom:30px !important;
-        margin-top:20px !important;
-      }
-      .category-list .button-category {
-        padding:7px;
-        margin:5px;
-        font-size:15px;
-        box-shadow:4px 5px 10px rgba(0,0,0,0.3);
-        border-radius:5px;
-        font-weight:500;
-        border:1px solid rgba(225, 225, 225, 0.5);
-        color:rgba(225, 225, 225, 0.9);
-        background-color:var(--darkBackground);
-      }
-      .heroImg {
-        width:100%;
-      }
-      
-      /* CARD */
       .card {
-        margin: auto;
-        border-radius:10px;
-        width: 100%;
-        transition: transform 0.6s ease, box-shadow 0.9s ease, border-left 0.6s ease;
-        background-color: #2c2f33 !important;
-      }
-      .badge {
-        background-color:var(--nvbarColor);
-      }
-      .custom {
-        box-shadow:2px 2px 4px rgba(0,0,0,0.4);
-        background-repeat: no-repeat !important;
-        border-radius: 5px !important;
-        background-size: 100% 90% !important;
-        background-color:var(--darkButNotBlack); 
-      }
-      .custom > .card-body {
-        background-color:#2c2f33;
-      }
-      .custom:after {
-        content: "";
-        display: block;
-        position: absolute;
-        width: 100%;
-
-        height: 147px;
-        top: 0px;
-        background: linear-gradient(to bottom, rgba(0, 0, 0, 0.2), #2c2f33);
-      }
-      .custom:before {
-        content:"";
-        position:absolute;
-        bottom:0;
+        background-color:var(--front);
         width:100%;
-        z-index:-10;
-        height:100%;
-        display:block;
-        background-color:#2c2f33;
       }
-
-      /* TOP VOTE */
-      .card0 {
-        border-left: 5px solid #ffc800 !important;
-      }     
-      .card1 {
-        border-left: 5px solid #00E1FF !important;
+      input:focus {
+        border:2px solid #5865F2;
       }
-      .card2 {
-        border-left: 5px solid #7B7B7B !important;
-      }
-      .card0,
-      .card1,
-      .card2 {
-        box-shadow: 4px 3px 10px rgba(0, 0, 0, 0.4);
-      }
-      .card0 .btn-vote,
-      .card1 .btn-vote,
-      .card2 .btn-vote {
-        border: none !important;
-      }
-
-      .lensa0,
-      .lensa1,
-      .lensa2 {
-        z-index:1;
-        pointer-events: none;
-        max-width: 100% !important;
-        display: block;
-        width: 15%;
-        position: absolute;
-        top: -7%;
-        right: -3%;
-        filter: drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.5));
-      }
-      .row .col .card .card-img-custom {
-        border-radius: 20% !important;
-        padding: 15px;
-        z-index: 100;
-        height: 146px !important;
-        width: 150px;
-        /*transform:translateX(50%);*/
-      }
-      .shortDesc {
-        overflow-y: scroll;
-        height: 70px;
-        color: rgba(225, 225, 225, 0.5);
-      }
-
-      .shortDesc::-webkit-scrollbar {
-        width: 7px;
-      }
-
-      .shortDesc::-webkit-scrollbar-track {
-
-      }
-
-      .shortDesc::-webkit-scrollbar-thumb {
-        background-color:grey;
-        border-radius:7px;
-      }
-      .customCard {
-        padding:15px;
-        border-radius:6px;
-        margin-bottom:20px;
-        background-color:var(--darkButNotBlack);
-        box-shadow:2px 2px 4px rgba(0,0,0,0.4);
-      }
-      .useBackground {
-        background-repeat:no-repeat !important;
-        background-size:100% 40% !important;
-        background-color:var(--darkButNotBlack) !important;
-      }
-      /*.useBackground:after {
-        content:'';
-        display:block !important;
-        position:absolute;
-        width:100%;
-        
-        height:174px !important;
-        top:0;
-        background:linear-gradient(to bottom, rgba(0,0,0,0.5), var(--darkButNotBlack));
-      }
-      .useBackground:before {
-        content:'';
-        displat:block;
-        position:absolute;
-        width:100%;
-        height:100%;
-        bottom:0;
-        background-color:var(--darkButNotBlack);
-        z-index:999;
-      }*/
-      .avatarCard {
-        width:130px;
-        margin-bottom:15px;
-        margin-top:16px;
-        border:2px solid rgba(225, 225, 225, 0.7);
-        box-shadow:1px 2px 10px rgba(0,0,0,0.2);
-        border-radius:50%;
-      }
-      .box-short {
-        text-align:left;
-        font-weight:500;
-        padding:5px;
-        border-radius:7px;
-        /*background-color:var(--darkBackground);*/
-        height:100px;
-        color:rgba(225, 225, 225, 0.8);
-        overflow-x:scroll;
-      }
-      .box-short::-webkit-scrollbar {
-        width:7px;
-      }
-      .box-short::-webkit-scrollbar-track {
-        
-      }
-      .box-short::-webkit-scrollbar-thumb {
-        background-color:grey;
-        border-radius:7px;
-      }
-      .category {
-        font-size:13px;
-        margin-bottom:-10px !important;
-        margin-top:20px !important;
-        font-weight:500;
-        margin:5px;
-      }
-      .view, .invite {
-        text-transform:uppercase;
-        font-weight:700;
-      }
-      .view:hover, .invite:hover {
-        color:#7289DA;
-        transition:all 0.4s all;
-      }
-      @media only screen and (min-width: 960px) {
-        .navbar .navbar-nav .nav-item {
-          padding: 1em 0.7em;
-        }
-        .navbar {
-          padding: 0;
-        }
-        .navbar .navbar-brand {
-          padding: 0 0.7em;
-        }
-      }
-      .navbar .navbar-nav .nav-item {
-        position: relative;
-      }
-      .navbar .navbar-nav .nav-item::after {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        margin: auto;
-        background-color:rgba(0,0,0,0.6);
-        color: transparent;
-        width: 0%;
-        content: '';
-        height: 2px;
-        transition: all 0.5s;
-      }
-      .navbar .navbar-nav .nav-item.active::after {
-        width: 100%;
+      input {
+        border:2px solid rgba(0,0,0,0);
       }
     </style>
-    
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
+    <script>
+      function toggleNavbar() {
+        let navbar = document.getElementById("mobile-menu");
+        let open = document.getElementById("open");
+        let x = document.getElementById("x");
+        x.classList.toggle("hidden");
+        open.classList.toggle("hidden");
+        navbar.classList.toggle("hidden");
+      }
+    </script>
   </body>
 </html>
