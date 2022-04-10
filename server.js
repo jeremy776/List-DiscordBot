@@ -8,9 +8,7 @@ const dbs = require("quick.db");
 
 const { Database } = require("quickmongo");
 let urlData = process.env.MONGOURL;
-const db = new Database(
-  "mongodb+srv://jeremy:jeremykusuma@cluster0.d0mjj.mongodb.net/listbot?retryWrites=true&w=majority"
-);
+const db = new Database(urlData);
 
 let category = require("./category-list.json");
 let lib = require("./library");
